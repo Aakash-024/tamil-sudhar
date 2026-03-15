@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>தமிழ் சுதர்</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f4f4f4;
+}
+
+header{
+background:#6c3df4;
+color:white;
+padding:20px;
+font-size:26px;
+text-align:center;
+}
+
+.story{
+background:white;
+margin:15px;
+padding:18px;
+border-radius:10px;
+box-shadow:0 3px 8px rgba(0,0,0,0.2);
+cursor:pointer;
+}
+
+.reader{
+display:none;
+padding:20px;
+}
+
+.word{
+font-weight:bold;
+color:#6c3df4;
+}
+
+.eng{
+color:gray;
+margin-left:5px;
+}
+
+button{
+padding:10px;
+margin-bottom:20px;
+}
+
+</style>
+
+<script>
+
+function openStory(id){
+
+document.getElementById("home").style.display="none"
+
+document.getElementById(id).style.display="block"
+
+}
+
+function home(){
+
+document.querySelectorAll(".reader").forEach(r=>r.style.display="none")
+
+document.getElementById("home").style.display="block"
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<header>தமிழ் சுதர்</header>
+
+<div id="home">
+
+<div class="story" onclick="openStory('s1')">
+📖 தெனாலி ராமன் மற்றும் ராஜா
+</div>
+
+<div class="story" onclick="openStory('s2')">
+📖 சிங்கம் மற்றும் எலி
+</div>
+
+<div class="story" onclick="openStory('s3')">
+📖 ஆமை மற்றும் முயல்
+</div>
+
+<div class="story" onclick="openStory('s4')">
+📖 காகம் மற்றும் குடம்
+</div>
+
+<div class="story" onclick="openStory('s5')">
+📖 நரி மற்றும் திராட்சை
+</div>
+
+</div>
+
+<!-- STORY 1 -->
+
+<div id="s1" class="reader">
+
+<button onclick="home()">⬅ முகப்பு</button>
+
+<h2>தெனாலி ராமன்</h2>
+
+<p>
+
+<span class="word">ஒரு</span><span class="eng">(one)</span>
+<span class="word">நாள்</span><span class="eng">(day)</span>
+<span class="word">ராஜா</span><span class="eng">(king)</span>
+<span class="word">கிருஷ்ணதேவராயர்</span>
+<span class="word">தெனாலி</span>
+<span class="word">ராமனை</span>
+<span class="word">அழைத்தார்</span>
+
+</p>
+
+<p>
+
+<span class="word">ராமன்</span>(Raman)
+<span class="word">மிக</span>(very)
+<span class="word">புத்திசாலி</span>(wise)
+<span class="word">ஆக</span>(so)
+<span class="word">இருந்தான்</span>(was)
+
+</p>
+
+</div>
+
+<!-- STORY 2 -->
+
+<div id="s2" class="reader">
+
+<button onclick="home()">⬅ முகப்பு</button>
+
+<h2>சிங்கம் மற்றும் எலி</h2>
+
+<p>
+
+ஒரு நாள் ஒரு சிங்கம் தூங்கிக் கொண்டிருந்தது.  
+ஒரு சிறிய எலி அதன் மீது ஓடியது.
+
+</p>
+
+<p>
+
+சிங்கம் எலியை பிடித்தது.  
+எலி மன்னிப்பு கேட்டது.
+
+</p>
+
+</div>
+
+<!-- STORY 3 -->
+
+<div id="s3" class="reader">
+
+<button onclick="home()">⬅ முகப்பு</button>
+
+<h2>ஆமை மற்றும் முயல்</h2>
+
+<p>
+
+முயல் மிகவும் வேகமாக ஓடும்.  
+ஆமை மெதுவாக நடக்கும்.
+
+</p>
+
+<p>
+
+ஒரு நாள் அவர்கள் போட்டி போட்டனர்.  
+ஆமை வெற்றி பெற்றது.
+
+</p>
+
+</div>
+
+<!-- STORY 4 -->
+
+<div id="s4" class="reader">
+
+<button onclick="home()">⬅ முகப்பு</button>
+
+<h2>காகம் மற்றும் குடம்</h2>
+
+<p>
+
+ஒரு காகம் தாகமாக இருந்தது.  
+அது ஒரு குடத்தை கண்டது.
+
+</p>
+
+<p>
+
+காகம் கற்களை போட்டது.  
+தண்ணீர் மேலே வந்தது.
+
+</p>
+
+</div>
+
+<!-- STORY 5 -->
+
+<div id="s5" class="reader">
+
+<button onclick="home()">⬅ முகப்பு</button>
+
+<h2>நரி மற்றும் திராட்சை</h2>
+
+<p>
+
+ஒரு நரி திராட்சையை பார்க்கிறது.  
+அது அதை எட்ட முடியவில்லை.
+
+</p>
+
+<p>
+
+அது சொன்னது:  
+"இந்த திராட்சை புளிப்பு".
+
+</p>
+
+</div>
+
+<script>
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js")
+
+}
+
+</script>
+
+</body>
+
+</html>
