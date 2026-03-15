@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>தமிழ் சுதர்</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#f4f4f4;
+}
+
+header{
+background:#5c2dd5;
+color:white;
+padding:18px;
+font-size:26px;
+text-align:center;
+}
+
+.sectionBtn{
+background:white;
+padding:18px;
+margin:15px;
+border-radius:12px;
+font-size:18px;
+box-shadow:0 3px 8px rgba(0,0,0,0.2);
+cursor:pointer;
+}
+
+.story{
+background:white;
+padding:15px;
+margin:15px;
+border-radius:10px;
+}
+
+.word{
+font-weight:bold;
+color:#5c2dd5;
+}
+
+.eng{
+color:gray;
+margin-left:8px;
+}
+
+.back{
+margin:15px;
+padding:10px;
+}
+
+</style>
+
+<script>
+
+function openSection(id){
+
+document.getElementById("home").style.display="none"
+
+document.getElementById(id).style.display="block"
+
+}
+
+function goHome(){
+
+document.querySelectorAll(".page").forEach(p=>p.style.display="none")
+
+document.getElementById("home").style.display="block"
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<header>தமிழ் சுதர்</header>
+
+<div id="home">
+
+<div class="sectionBtn" onclick="openSection('stories')">
+📚 கதைகள்
+</div>
+
+<div class="sectionBtn" onclick="openSection('animals')">
+🐾 விலங்கு கதைகள்
+</div>
+
+<div class="sectionBtn" onclick="openSection('moral')">
+🌟 நீதிக் கதைகள்
+</div>
+
+</div>
+
+<!-- STORIES -->
+
+<div id="stories" class="page" style="display:none">
+
+<button class="back" onclick="goHome()">⬅ முகப்பு</button>
+
+<div class="story">
+<span class="word">ஒரு</span> <span class="eng">(one)</span>
+<span class="word">நாள்</span> <span class="eng">(day)</span>
+<span class="word">ஒரு</span> <span class="eng">(a)</span>
+<span class="word">ராஜா</span> <span class="eng">(king)</span>
+<span class="word">இருந்தான்</span> <span class="eng">(existed)</span>
+</div>
+
+<div class="story">
+<span class="word">அவன்</span>(he)
+<span class="word">மிக</span>(very)
+<span class="word">புத்திசாலி</span>(wise)
+</div>
+
+<div class="story">
+<span class="word">ஒரு</span>(a)
+<span class="word">மரம்</span>(tree)
+<span class="word">கீழ்</span>(under)
+<span class="word">பூனை</span>(cat)
+</div>
+
+<div class="story">
+<span class="word">குழந்தை</span>(child)
+<span class="word">ஒரு</span>(a)
+<span class="word">புத்தகம்</span>(book)
+<span class="word">படித்தது</span>(read)
+</div>
+
+<div class="story">
+<span class="word">நண்பன்</span>(friend)
+<span class="word">எப்போதும்</span>(always)
+<span class="word">உதவும்</span>(helps)
+</div>
+
+</div>
+
+<!-- ANIMAL STORIES -->
+
+<div id="animals" class="page" style="display:none">
+
+<button class="back" onclick="goHome()">⬅ முகப்பு</button>
+
+<div class="story">நரி (fox) மற்றும் திராட்சை (grapes)</div>
+<div class="story">சிங்கம் (lion) மற்றும் எலி (mouse)</div>
+<div class="story">ஆமை (tortoise) மற்றும் முயல் (rabbit)</div>
+<div class="story">காகம் (crow) மற்றும் குடம் (pot)</div>
+<div class="story">நாய் (dog) மற்றும் எலும்பு (bone)</div>
+
+</div>
+
+<!-- MORAL STORIES -->
+
+<div id="moral" class="page" style="display:none">
+
+<button class="back" onclick="goHome()">⬅ முகப்பு</button>
+
+<div class="story">நேர்மை (honesty) மிக முக்கியம்</div>
+<div class="story">பொறுமை (patience) வெற்றிக்கு வழி</div>
+<div class="story">நட்பு (friendship) சக்தி</div>
+<div class="story">உழைப்பு (hardwork) வெற்றி தரும்</div>
+<div class="story">அறிவு (knowledge) செல்வம்</div>
+
+</div>
+
+</body>
+</html>
