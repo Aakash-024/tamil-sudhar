@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<title>தமிழ் சுதர்</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f2f2f2;
+text-align:center;
+}
+
+header{
+background:#6a0dad;
+color:white;
+padding:20px;
+font-size:30px;
+}
+
+.card{
+background:white;
+margin:20px auto;
+width:300px;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 8px rgba(0,0,0,0.2);
+cursor:pointer;
+font-size:20px;
+}
+
+.card:hover{
+background:#eee;
+}
+
+.story{
+display:none;
+padding:20px;
+}
+
+button{
+margin-top:20px;
+padding:10px 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+தமிழ் சுதர்
+</header>
+
+<div id="home">
+
+<div class="card" onclick="openStory()">
+📚 தெனாலிராமன் கதை
+</div>
+
+<div class="card">
+📝 தமிழ் கவிதைகள்
+</div>
+
+<div class="card">
+🎧 ஆடியோ கதைகள்
+</div>
+
+</div>
+
+<div id="story" class="story">
+
+<h2>தெனாலிராமன் கதை</h2>
+
+<p>
+ஒரு நாள் ராஜா கிருஷ்ணதேவராயர் அரண்மனையில்
+ஒரு கேள்வி கேட்டார். “உலகத்தில் மிக புத்திசாலி யார்?”
+
+அப்போது தெனாலிராமன் எழுந்து
+“தன் தவறுகளை திருத்திக் கொள்வவன் தான் புத்திசாலி” என்றார்.
+</p>
+
+<button onclick="goHome()">⬅ முகப்பு</button>
+
+</div>
+
+<script>
+
+function openStory(){
+document.getElementById("home").style.display="none"
+document.getElementById("story").style.display="block"
+}
+
+function goHome(){
+document.getElementById("home").style.display="block"
+document.getElementById("story").style.display="none"
+}
+
+</script>
+
+</body>
+</html>
