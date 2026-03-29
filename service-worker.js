@@ -1,4 +1,4 @@
-const CACHE_NAME = "tamil-app-v1";
+const CACHE_NAME = "tamil-app-v2";
 
 const urlsToCache = [
   "./",
