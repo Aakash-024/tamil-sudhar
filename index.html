@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>தமிழ் சுடர்</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4a148c">
+</head>
+
+<style>
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#eef2f7,#dfe9f3);
+}
+
+/* HEADER */
+header {
+  background:#4a148c;
+  color:white;
+  padding:16px;
+  text-align:center;
+  font-size:22px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* SEARCH */
+.search {
+  padding:15px;
+}
+input {
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-size:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* STORY CARDS */
+.card {
+  background:white;
+  margin:12px;
+  padding:18px;
+  border-radius:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  cursor:pointer;
+  transition:0.3s;
+  font-weight:500;
+}
+.card:hover {
+  transform:translateY(-5px);
+  background:#f3e5f5;
+}
+
+/* STORY VIEW */
+.reader {
+  display:none;
+  margin:12px;
+  padding:20px;
+  border-radius:16px;
+  background:white;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  line-height:2;
+  animation:fadeIn 0.3s ease;
+}
+
+/* BUTTONS */
+button {
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  background:#6a1b9a;
+  color:white;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.2s;
+}
+button:hover {
+  background:#8e24aa;
+}
+
+/* AUDIO */
+audio {
+  width:100%;
+  margin:15px 0;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(10px);}
+  to {opacity:1; transform:translateY(0);}
+}
+</style>
+
+<script>
+function openStory(id){
+  document.getElementById("home").style.display="none";
+  document.querySelectorAll(".reader").forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+function goHome(){
+  document.querySelectorAll(".reader").forEach(s=>s.style.display="none");
+  document.getElementById("home").style.display="block";
+}
+function searchStories(){
+  let input=document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll(".card").forEach(c=>{
+    c.style.display=c.innerText.toLowerCase().includes(input)?"block":"none";
+  });
+}
+function bookmark(n){
+  let b=JSON.parse(localStorage.getItem("bm"))||[];
+  if(!b.includes(n)){
+    b.push(n);
+    localStorage.setItem("bm",JSON.stringify(b));
+    alert("⭐ Saved");
+  }
+}
+</script>
+</head>
+
+<body>
+
+<header>தமிழ் சுடர்</header>
+
+<div id="home">
+  <div class="search">
+    <input id="search" placeholder="கதை தேடுக..." onkeyup="searchStories()">
+  </div>
+
+  <div class="card" onclick="openStory('s1')">1. நேர்மையான மரவெட்டியான்</div>
+  <div class="card" onclick="openStory('s2')">2. சிங்கம் மற்றும் எலி</div>
+  <div class="card" onclick="openStory('s3')">3. ஆமை மற்றும் முயல்</div>
+  <div class="card" onclick="openStory('s4')">4. நரி மற்றும் திராட்சை</div>
+  <div class="card" onclick="openStory('s5')">5. காகம் மற்றும் குடம்</div>
+  <div class="card" onclick="openStory('s6')">6. புத்திசாலி முயல்</div>
+  <div class="card" onclick="openStory('s7')">7. இரு நண்பர்கள் மற்றும் கரடி</div>
+  <div class="card" onclick="openStory('s8')">8. சோம்பேறி கழுதை</div>
+  <div class="card" onclick="openStory('s9')">9. பெருமை கொண்ட ரோஜா</div>
+  <div class="card" onclick="openStory('s10')">10. விவசாயி மற்றும் மகன்கள்</div>
+  <div class="card" onclick="openStory('s11')">11. நன்றி கற்ற நாய்</div>
+  <div class="card" onclick="openStory('s12')">12. அறிவில்லாத குரங்கு</div>
+  <div class="card" onclick="openStory('s13')">13. உழைப்பின் பலன்</div>
+  <div class="card" onclick="openStory('s14')">14. துணிவான சிறுவன்</div>
+  <div class="card" onclick="openStory('s15')">15. சிறிய எறும்பு</div>
+</div>
+
+<!-- STORY 1 -->
+<div id="s1" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(1)">⭐ Bookmark</button>
+  </div>
+  <h2>1. நேர்மையான மரவெட்டியான்</h2>
+  <audio controls><source src="Story-01.mp3"></audio>
+  <p>
+  ஒரு கிராமத்தில் ஒரு மரவெட்டியான் வாழ்ந்தான்.<br>
+  அவன் மிகவும் ஏழை என்றாலும் மனம் நல்லவன்.<br>
+  தினமும் காடு சென்று மரம் வெட்டிச் சாப்பாடு பெற்றான்.<br>
+  ஒரு நாள் ஆற்றங்கரையில் வேலை செய்தபோது கோடரி நீரில் விழுந்தது.<br>
+  அவன் கவலையுடன் உட்கார்ந்தான், என்ன செய்வது என்று யோசித்தான்.<br>
+  அப்போது ஒரு தேவதை தோன்றி காரணம் கேட்டாள்.<br>
+  தங்க கோடரியை காட்டினாள்; அவன் “இது எனது அல்ல” என்றான்.<br>
+  வெள்ளி கோடரியையும் மறுத்தான்; உண்மையை மட்டும் கூறினான்.<br>
+  இறுதியில் தனது இரும்புக் கோடரியை பெற்றான்.<br>
+  அவன் நேர்மையை பார்த்த தேவதை மூன்றையும் பரிசாக கொடுத்தாள்.<br>
+  அவன் மகிழ்ச்சியுடன் வீட்டிற்கு திரும்பினான்.<br>
+  ENGLISH TRANSLATION<br>
+  A woodcutter lived in a village.<br>
+  Although he was very poor, he was a good-hearted man.<br>
+  Every day, he would go to the forest to cut trees and earn his livelihood.<br>
+  One day, while he was working on the riverbank, his axe fell into the water.<br>
+  He sat down in distress, wondering what to do.<br>
+  Just then, a fairy appeared and asked him the reason for his sorrow.<br>
+  She showed him a golden axe; he replied, "This is not mine."<br>
+  He also declined a silver axe, speaking nothing but the truth.<br>
+  Finally, he received his own iron axe.<br>
+  Impressed by his honesty, the fairy gave him all three axes as a gift.<br>
+  He returned home filled with joy.<br>
+  </p>
+</div>
+
+<!-- STORY 2 -->
+<div id="s2" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(2)">⭐ Bookmark</button>
+  </div>
+  <h2>2. சிங்கம் மற்றும் எலி</h2>
+  <audio controls><source src="Story-02.mp3"></audio>
+  <p>
+  ஒரு நாள் ஒரு சிங்கம் மரத்தின் கீழ் தூங்கிக் கொண்டிருந்தது.<br>
+  அப்போது ஒரு சிறிய எலி அதன் மேல் ஓடிவந்தது.<br>
+  சிங்கம் கோபமாக எழுந்து எலியை பிடித்தது.<br>
+  எலி “என்னை விடுங்கள்; ஒருநாள் உதவுவேன்” என்று கேட்டது.<br>
+  சிங்கம் சிரித்தாலும் கருணையால் அதை விட்டுவிட்டது.<br>
+  சில நாட்கள் கழித்து சிங்கம் வேட்டைக்காரரின் வலையில் சிக்கியது.<br>
+  அது பலமாக கர்ஜித்தது; உதவி தேடியது.<br>
+  அந்த சத்தத்தை கேட்டு எலி வந்தது.<br>
+  அது கயிறுகளை கடித்து வலையை கிழித்தது.<br>
+  சிங்கம் விடுபட்டு எலிக்கு நன்றி கூறியது.<br>
+  சிறியவர்களும் உதவ முடியும் என்பதை அது உணர்ந்தது.<br>
+  ENGLISH TRANSLATION<br>
+  One day, a lion was sleeping under a tree.<br>
+  Just then, a small mouse ran over it.<br>
+  The lion woke up angrily and caught the mouse.<br>
+  The mouse pleaded, "Please let me go; I will help you someday."<br>
+  Although the lion laughed, it let the mouse go out of compassion.<br>
+  A few days later, the lion got caught in a hunter's net.<br>
+  It roared loudly, seeking help.<br>
+  Hearing the sound, the mouse arrived.<br>
+  It gnawed through the ropes and tore the net apart.<br>
+  The lion broke free and thanked the mouse.<br>
+  It realized that even the small can be of help.<br>
+  </p>
+</div>
+
+<!-- STORY 3 -->
+<div id="s3" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(3)">⭐ Bookmark</button>
+  </div>
+  <h2>3. ஆமை மற்றும் முயல்</h2>
+  <audio controls><source src="Story-03.mp3"></audio>
+  <p>
+  முயல் தனது வேகத்தைப் பற்றி எப்போதும் பெருமைப்பட்டு பேசும்.<br>
+  மெதுவாக நடக்கும் ஆமையை அது கேலி செய்தது.<br>
+  ஆமை அமைதியாக ஓட்டப்பந்தயத்திற்கு சவால் விட்டது.<br>
+  போட்டி தொடங்கியது; முயல் வேகமாக முன்னேறியது.<br>
+  “இதை எளிதாக ஜெயிப்பேன்” என்று நினைத்து நடுவில் தூங்கியது.<br>
+  ஆமை மெதுவாக இருந்தாலும் நின்றதே இல்லை.<br>
+  அது தொடர்ந்து முன்னேறிக் கொண்டே இருந்தது.<br>
+  தூக்கத்தில் இருந்த முயல் தாமதமாக எழுந்தது.<br>
+  ஓடினாலும், ஆமை இலக்கை அடைந்து விட்டது.<br>
+  முயல் தோல்வியை ஏற்றுக் கொண்டது.<br>
+  பொறுமையும் தொடர்ந்து முயற்சியும் வெற்றி தரும்.<br>
+  ENGLISH TRANSLATION<br>
+  The hare always boasted about its speed.<br>
+  It mocked the slow-moving tortoise.<br>
+  The tortoise calmly challenged it to a race.<br>
+  The race began, and the hare sped ahead.<br>
+  Thinking, "I will win this easily," it took a nap halfway through.<br>
+  Although the tortoise was slow, it never stopped.<br>
+  It kept moving forward continuously.<br>
+  The sleeping hare woke up late.<br>
+  Even though it ran, the tortoise had already reached the finish line.<br>
+  The hare accepted its defeat.<br>
+  Patience and perseverance lead to success.<br>
+  </p>
+</div>
+
+<!-- STORY 4 -->
+<div id="s4" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(4)">⭐ Bookmark</button>
+  </div>
+  <h2>4. நரி மற்றும் திராட்சை</h2>
+  <audio controls><source src="Story-04.mp3"></audio>
+  <p>
+  ஒரு நரி மிகவும் பசித்து உணவு தேடி நடந்தது.<br>
+  அது ஒரு திராட்சை கொடியை கண்டது.<br>
+  கொடியிலிருந்த திராட்சைகள் பசுமையாகத் தோன்றின.<br>
+  அவை உயரத்தில் இருந்ததால் எட்ட முடியவில்லை.<br>
+  நரி பலமுறை தாவி முயன்றது.<br>
+  ஒவ்வொரு முறையும் அது தோல்வியடைந்தது.<br>
+  சோர்ந்து நின்ற நரி சுற்றி பார்த்தது.<br>
+  “இந்த திராட்சை புளிப்பு தான்” என்று சொன்னது<br>
+  அது விரக்தியுடன் அங்கிருந்து சென்றது.<br>
+  அடைய முடியாததை தாழ்த்திப் பேசும் பழக்கத்தை இது காட்டுகிறது.<br>
+  ENGLISH TRANSLATION<br>
+  A fox, feeling very hungry, went in search of food.<br>
+  It spotted a grapevine.<br>
+  The grapes on the vine appeared lush and green.<br>
+  However, as they were hanging high up, the fox could not reach them.<br>
+  The fox leaped and tried several times.<br>
+  Each time, it failed.<br>
+  Exhausted, the fox paused and looked around.<br>
+  "These grapes are sour," it remarked.<br>
+  It then walked away from the spot in frustration.<br>
+  This illustrates the tendency to disparage what one cannot attain.<br>
+  </p>
+</div>
+
+<!-- STORY 5 -->
+<div id="s5" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(5)">⭐ Bookmark</button>
+  </div>
+  <h2>5. காகம் மற்றும் குடம்</h2>
+  <audio controls><source src="Story-05.mp3"></audio>
+  <p>
+  ஒரு காகம் வெயிலில் பறந்து மிகவும் தாகமாகியது.<br>
+  அது தண்ணீர் தேடி பல இடங்களில் சுற்றியது.<br>
+  இறுதியில் ஒரு குடத்தை கண்டது.<br>
+  குடத்தில் தண்ணீர் இருந்தது ஆனால் மிகவும் கீழே இருந்தது.<br>
+  காகம் அலகால் எட்ட முடியவில்லை.<br>
+  அது யோசித்து ஒரு திட்டம் போட்டது.<br>
+  அருகிலிருந்த சிறு கற்களை எடுத்தது.<br>
+  அவற்றை ஒன்றன்பின் ஒன்றாக குடத்தில் போட்டது.<br>
+  தண்ணீர் மெதுவாக மேலே வந்தது.<br>
+  காகம் சுலபமாக குடித்து தாகம் தீர்த்தது.<br>
+  புத்திசாலித்தனம் பிரச்சினைக்கு தீர்வாகும்.<br>
+  ENGLISH TRANSLATION<br>
+  A crow flew in the scorching sun and became very thirsty.<br>
+  It wandered through many places in search of water.<br>
+  Finally, it spotted a pot.<br>
+  There was water in the pot, but it was very low down.<br>
+  The crow could not reach it with its beak.<br>
+  It thought for a moment and devised a plan.<br>
+  It picked up some small pebbles lying nearby.<br>
+  It dropped them into the pot, one after another.<br>
+  The water slowly rose to the top.<br>
+  The crow drank easily and quenched its thirst.<br>
+  Intelligence provides a solution to problems.<br>
+  </p>
+</div>
+
+<!-- STORY 6 -->
+<div id="s6" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(6)">⭐ Bookmark</button>
+  </div>
+  <h2>6. புத்திசாலி முயல்</h2>
+  <audio controls><source src="Story-06.mp3"></audio>
+  <p>
+  ஒரு காட்டில் ஒரு கொடிய சிங்கம் வாழ்ந்தது.<br>
+  அது தினமும் விலங்குகளை வேட்டையாடியது.<br>
+  பயந்த விலங்குகள் ஒரு உடன்பாடு செய்தன.<br>
+  தினமும் ஒருவரை சிங்கத்திற்கு அனுப்ப முடிவு செய்தனர்.<br>
+  ஒரு நாள் ஒரு சிறிய முயலின் வரிசை வந்தது.<br>
+  அது திட்டமிட்டு தாமதமாக சென்றது.<br>
+  கோபமடைந்த சிங்கத்திடம் “மற்றொரு சிங்கம் தடுப்பது” என்றது.<br>
+  அதை கிணற்றிற்கு அழைத்துச் சென்றது.<br>
+  நீரில் பிரதிபலிப்பை பார்த்த சிங்கம் குதித்தது.<br>
+  அது கிணற்றில் விழுந்து இறந்தது.<br>
+  விலங்குகள் எல்லாம் காப்பாற்றப்பட்டன.<br>
+  ENGLISH TRANSLATION<br>
+  A ferocious lion lived in a forest.<br>
+  It hunted animals every day.<br>
+  The frightened animals reached an agreement.<br>
+  They decided to send one of their own to the lion each day.<br>
+  One day, it was the turn of a small rabbit.<br>
+  It deliberately arrived late.<br>
+  To the enraged lion, it claimed, "Another lion blocked my path."<br>
+  It led the lion to a well.<br>
+  Upon seeing its reflection in the water, the lion leaped in.<br>
+  It fell into the well and died.<br>
+  All the animals were saved.<br>
+  </p>
+</div>
+
+<!-- STORY 7 -->
+<div id="s7" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(7)">⭐ Bookmark</button>
+  </div>
+  <h2>7. இரு நண்பர்கள் மற்றும் கரடி</h2>
+  <audio controls><source src="Story-07.mp3"></audio>
+  <p>
+  இரண்டு நண்பர்கள் காட்டுப் பாதையில் பயணம் செய்தனர்.<br>
+  திடீரென ஒரு கரடி அவர்களை நோக்கி வந்தது.<br>
+  ஒருவர் உடனே மரத்தில் ஏறி தன்னை காப்பாற்றிக் கொண்டார்.<br>
+  மற்றவருக்கு ஏற தெரியவில்லை.<br>
+  அவர் தரையில் படுத்து மூச்சை அடக்கி இறந்தவரைப் போல இருந்தார்.<br>
+  கரடி வந்து முகத்தை மணந்து பார்த்தது.<br>
+  எந்த அசைவும் இல்லாததால் அது சென்றது.<br>
+  பின்னர் மரத்தில் இருந்த நண்பன் கீழே இறங்கினார்.<br>
+  “கரடி என்ன சொன்னது?” என்று கேட்டார்.<br>
+  “ஆபத்தில் உன்னை விட்டுவிடுபவர்களை நம்பாதே” என்றது என்றார்.<br>
+  உண்மையான நட்பு சோதனையில் தெரியும்.<br>
+  ENGLISH TRANSLATION<br>
+  Two friends were traveling along a forest path.<br>
+  Suddenly, a bear approached them.<br>
+  One of them immediately climbed a tree and saved himself.<br>
+  The other did not know how to climb.<br>
+  He lay down on the ground, held his breath, and pretended to be dead.<br>
+  The bear came over and sniffed his face.<br>
+  Since there was no movement, it walked away.<br>
+  Later, the friend who was in the tree climbed down.<br>
+  “What did the bear say?” he asked.<br>
+  “It told me not to trust those who abandon you in times of danger,” he replied.<br>
+  True friendship is revealed in times of trial.<br>
+  </p>
+</div>
+
+<!-- STORY 8 -->
+<div id="s8" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(8)">⭐ Bookmark</button>
+  </div>
+  <h2>8. சோம்பேறி கழுதை</h2>
+  <audio controls><source src="Story-08.mp3"></audio>
+  <p>
+  ஒரு கழுதை தினமும் உப்பு மூட்டைகளை சுமந்தது.<br>
+  அது ஆற்றை கடந்து சந்தைக்கு செல்வது வழக்கம்.<br>
+  ஒருநாள் தவறி நீரில் விழுந்தது.<br>
+  உப்பு கரைந்து சுமை குறைந்தது.<br>
+  இதை அது ஒரு வழியாக நினைத்தது.<br>
+  அடுத்த நாட்களிலும் தானாகவே நீரில் விழுந்தது.<br>
+  உரிமையாளர் இதை கவனித்தார்.<br>
+  ஒரு நாள் உப்புக்கு பதிலாக பருத்தி ஏற்றினார்.<br>
+  கழுதை மீண்டும் நீரில் விழுந்தது.<br>
+  பருத்தி தண்ணீர் குடித்து சுமை அதிகமானது.<br>
+  அப்போதுதான் அது தன் தவறை உணர்ந்தது.<br>
+  ENGLISH TRANSLATION<br>
+  A donkey carried sacks of salt every day.<br>
+  It was its routine to cross a river on its way to the market.<br>
+  One day, it accidentally fell into the water.<br>
+  The salt dissolved, and the load became lighter.<br>
+  It perceived this as a clever trick.<br>
+  On subsequent days, it deliberately fell into the water.<br>
+  Its owner noticed this.<br>
+  One day, instead of salt, he loaded cotton onto it.<br>
+  The donkey fell into the water once again.<br>
+  The cotton soaked up the water, and the load became heavier.<br>
+  Only then did it realize its mistake.<br>
+  </p>
+</div>
+
+<!-- STORY 9 -->
+<div id="s9" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(9)">⭐ Bookmark</button>
+  </div>
+  <h2>9. பெருமை கொண்ட ரோஜா</h2>
+  <audio controls><source src="Story-09.mp3"></audio>
+  <p>
+  ஒரு தோட்டத்தில் அழகான ரோஜா மலர் இருந்தது.<br>
+  அருகில் ஒரு காக்டஸ் செடியும் இருந்தது.<br>
+  ரோஜா தன் அழகை பற்றி பெருமைப்பட்டு காக்டஸை கேலி செய்தது.<br>
+  “நீ முள்ளுகளே, உன்னால் என்ன பயன்?” என்று சொன்னது.<br>
+  வெயில் காலம் வந்தது; தண்ணீர் குறைந்தது.<br>
+  ரோஜா வாடத் தொடங்கியது.<br>
+  காக்டஸ் உள்ளே தண்ணீர் சேமித்து இருந்தது.<br>
+  பறவைகள் காக்டஸிலிருந்து தண்ணீர் குடித்தன.<br>
+  ரோஜா தன் தவறை உணர்ந்து மன்னிப்பு கேட்டது.<br>
+  “ஒவ்வொருவருக்கும் தன் மதிப்பு உண்டு” என்று கற்றது.<br>
+  ENGLISH TRANSLATION<br>
+  In a garden, there was a beautiful rose flower.<br>
+  Nearby, there was also a cactus plant.<br>
+  The rose took pride in its beauty and mocked the cactus.<br>
+  “You are nothing but thorns; what use are you?” it said.<br>
+  The summer season arrived, and water became scarce.<br>
+  The rose began to wither.<br>
+  The cactus had stored water inside itself.<br>
+  Birds drank water from the cactus.<br>
+  The rose realized its mistake and apologized.<br>
+  It learned that “everyone has their own worth.”<br>
+  </p>
+</div>
+
+<!-- STORY 10 -->
+<div id="s10" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(10)">⭐ Bookmark</button>
+  </div>
+  <h2>10. விவசாயி மற்றும் மகன்கள்</h2>
+  <audio controls><source src="Story-10.mp3"></audio>
+  <p>
+  ஒரு விவசாயிக்கு மூன்று மகன்கள் இருந்தனர்.<br>
+  அவர்கள் அடிக்கடி சண்டையிட்டு ஒத்துழைக்கவில்லை.<br>
+  வயதான தந்தை கவலைப்பட்டார்.<br>
+  ஒரு நாள் குச்சிகளின் கட்டை கொண்டு வந்தார்.<br>
+  அதை உடைக்கச் சொன்னார்; யாருக்கும் முடியவில்லை.<br>
+  பின்னர் குச்சிகளை தனித்தனியாக கொடுத்தார்.<br>
+  ஒவ்வொருவரும் எளிதாக உடைத்தனர்.<br>
+  “ஒன்றுபட்டால் யாரும் உடைக்க முடியாது” என்றார்.<br>
+  மகன்கள் பாடம் கற்றனர்.<br>
+  அவர்கள் இணைந்து வேலை செய்யத் தொடங்கினர்.<br>
+  குடும்பம் மகிழ்ச்சியாக இருந்தது.<br>
+  ENGLISH TRANSLATION<br>
+  A farmer had three sons.<br>
+  They often quarreled and did not cooperate.<br>
+  The elderly father was worried.<br>
+  One day, he brought a bundle of sticks.<br>
+  He asked them to break it; no one could.<br>
+  Then, he gave them the sticks individually.<br>
+  Each of them broke them easily.<br>
+  “If you remain united, no one can break you,” he said.<br>
+  The sons learned their lesson.<br>
+  They began to work together.<br>
+  The family lived happily.<br>
+  </p>
+</div>
+
+<!-- STORY 11 -->
+<div id="s11" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(11)">⭐ Bookmark</button>
+  </div>
+  <h2>11. நன்றி கற்ற நாய்</h2>
+  <audio controls><source src="Story-11.mp3"></audio>
+  <p>
+  ஒரு நாய் தனது உரிமையாளருடன் வாழ்ந்தது.<br>
+  அவன் அதை அன்பாக வளர்த்தான்.<br>
+  ஒருநாள் இரவில் ஒரு திருடன் வீட்டில் நுழைந்தான்.<br>
+  நாய் அதை கவனித்து சத்தமாக குரைத்தது.<br>
+  உரிமையாளர் விழித்து திருடனை பார்த்தார்.<br>
+  திருடன் பயந்து ஓடிவிட்டான்.<br>
+  நாய் உரிமையாளரை காப்பாற்றியது.<br>
+  அவன் நாயை பாராட்டி பரிசளித்தான்.<br>
+  நாய் நன்றியுடன் இருந்தது.<br>
+  அது எப்போதும் பாதுகாப்பாக இருந்தது.<br>
+  ENGLISH TRANSLATION<br>
+  A dog lived with its owner.<br>
+  He raised it with great affection.<br>
+  One night, a thief broke into the house.<br>
+  The dog noticed him and barked loudly.<br>
+  The owner woke up and spotted the thief.<br>
+  Frightened, the thief ran away.<br>
+  The dog saved its owner.<br>
+  He praised the dog and rewarded it.<br>
+  The dog was grateful.<br>
+  It remained safe forever.<br>
+  </p>
+</div>
+
+<!-- STORY 12 -->
+<div id="s12" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(12)">⭐ Bookmark</button>
+  </div>
+  <h2>12. அறிவில்லாத குரங்கு</h2>
+  <audio controls><source src="Story-12.mp3"></audio>
+  <p>
+  ஒரு குரங்கு தன்னை மிகவும் புத்திசாலி என்று நினைத்தது.<br>
+  அது மற்ற விலங்குகளை அடிக்கடி கேலி செய்தது.<br>
+  ஒரு நாள் அது மரத்தின் உயரமான கிளையில் ஏறியது.<br>
+  கவனமின்றி விளையாடிக் கொண்டிருந்தது.<br>
+  திடீரென அது கீழே விழுந்தது.<br>
+  காயமடைந்து நகர முடியாமல் இருந்தது.<br>
+  மற்ற விலங்குகள் வந்து உதவின.<br>
+  குரங்கு தன் தவறை உணர்ந்தது.<br>
+  பிறரை மதிக்க கற்றுக் கொண்டது.<br>
+  அதன் பின் அது நல்லவனாக வாழ்ந்தது.<br>
+  ENGLISH TRANSLATION<br>
+  A monkey thought of itself as very clever.<br>
+  It often mocked the other animals.<br>
+  One day, it climbed onto a high branch of a tree.<br>
+  It was playing carelessly.<br>
+  Suddenly, it fell down.<br>
+  It was injured and unable to move.<br>
+  The other animals came and helped it.<br>
+  The monkey realized its mistake.<br>
+  It learned to respect others.<br>
+  From then on, it lived as a good animal.<br>
+  </p>
+</div>
+
+<!-- STORY 13 -->
+<div id="s13" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(13)">⭐ Bookmark</button>
+  </div>
+  <h2>13. உழைப்பின் பலன்</h2>
+  <audio controls><source src="Story-13.mp3"></audio>
+  <p>
+  ஒரு இளைஞன் தினமும் கடினமாக உழைத்தான்.<br>
+  ஆரம்பத்தில் அவனுக்கு பல தடைகள் இருந்தன.<br>
+  அவன் பலமுறை தோல்வியடைந்தான்.<br>
+  இருந்தாலும் முயற்சியை விட்டுவிடவில்லை.<br>
+  அவன் ஒவ்வொரு நாளும் புதியதாக கற்றுக்கொண்டான்.<br>
+  மெதுவாக அவன் திறமை வளர்ந்தது.<br>
+  ஒரு நாள் பெரிய வாய்ப்பு கிடைத்தது.<br>
+  அவன் அதைப் பயன்படுத்தி வெற்றி பெற்றான்.<br>
+  அவன் வாழ்க்கை உயர்ந்தது.<br>
+  உழைப்பும் விடாமுயற்சியும் வெற்றி தரும்.<br>
+  ENGLISH TRANSLATION<br>
+  A young man worked hard every day.<br>
+  Initially, he faced many obstacles.<br>
+  He failed many times.<br>
+  Nevertheless, he did not give up his efforts.<br>
+  He learned something new every day.<br>
+  Gradually, his skills grew.<br>
+  One day, a great opportunity arose.<br>
+  He seized it and achieved success.<br>
+  His life reached new heights.<br>
+  Hard work and perseverance lead to success.<br>
+  </p>
+</div>
+
+<!-- STORY 14 -->
+<div id="s14" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(14)">⭐ Bookmark</button>
+  </div>
+  <h2>14. துணிவான சிறுவன்</h2>
+  <audio controls><source src="Story-14.mp3"></audio>
+  <p>
+  ஒரு சிறுவன் இருளுக்கு மிகவும் பயந்தான்.<br>
+  இரவு வந்தால் அவன் வெளியே போக மாட்டான்.<br>
+  ஒரு நாள் அவன் தாயார் நோயுற்றார்.<br>
+  மருந்து வாங்க இரவில் வெளியே போக வேண்டியது வந்தது.<br>
+  அவன் பயந்தாலும் துணிவாக நடந்தான்.<br>
+  வழியில் பல சத்தங்கள் கேட்டன.<br>
+  அவன் மனதை தைரியப்படுத்திக் கொண்டான்.<br>
+  கடைக்குச் சென்று மருந்து வாங்கினான்.<br>
+  பாதுகாப்பாக வீடு திரும்பினான்.<br>
+  அன்றிலிருந்து அவன் பயத்தை வென்றான்.<br>
+  ENGLISH TRANSLATION<br>
+  A young boy was terrified of the dark.<br>
+  He would not venture outside once night fell.<br>
+  One day, his mother fell ill.<br>
+  He had to go out at night to buy medicine.<br>
+  Despite his fear, he walked on courageously.<br>
+  He heard various sounds along the way.<br>
+  He steeled his heart.<br>
+  He went to the shop and bought the medicine.<br>
+  He returned home safely.<br>
+  From that day on, he conquered his fear.<br>
+  </p>
+</div>
+
+<!-- STORY 15 -->
+<div id="s15" class="reader">
+  <div class="actions">
+    <button onclick="goHome()">⬅ முகப்பு</button>
+    <button onclick="bookmark(15)">⭐ Bookmark</button>
+  </div>
+  <h2>15. சிறிய எறும்பு</h2>
+  <audio controls><source src="Story-15.mp3"></audio>
+  <p>
+  ஒரு எறும்பு கோடையில் மிகவும் உழைத்தது.<br>
+  அது தினமும் உணவை சேகரித்து சேமித்தது.<br>
+  அருகிலிருந்த சில பூச்சிகள் விளையாடிக் கொண்டிருந்தன.<br>
+  “ஏன் இவ்வளவு உழைப்பு?” என்று கேட்டன.<br>
+  எறும்பு “குளிர்காலத்திற்காக” என்றது.<br>
+  குளிர்காலம் வந்தபோது உணவு கிடைக்கவில்லை.<br>
+  மற்ற பூச்சிகள் பசித்தன.<br>
+  எறும்பு சேமித்த உணவை உண்டது.<br>
+  உழைப்பின் மதிப்பு அப்போது தெரிந்தது.<br>
+  முன்னேற்பாடு வாழ்க்கையை பாதுகாக்கும்.<br>
+  ENGLISH TRANSLATION<br>
+  An ant worked very hard during the summer.<br>
+  Every day, it gathered and stored food.<br>
+  Some nearby insects were playing.<br>
+  "Why work so hard?" they asked.<br>
+  "For the winter," replied the ant.<br>
+  When winter arrived, no food could be found.<br>
+  The other insects went hungry.<br>
+  The ant ate the food it had stored.<br>
+  The value of hard work became apparent then.<br>
+  Forethought safeguards one's life.<br>
+  </p>
+</div>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("Service Worker Registered"))
+      .catch(err => console.log("SW Error:", err));
+  });
+}
+</script>
+
+</body>
+</html>
