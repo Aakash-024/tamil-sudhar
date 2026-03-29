@@ -10,15 +10,92 @@
 </head>
 
 <style>
-body{margin:0;font-family:sans-serif;background:#eef2f7;}
-header{background:#4a148c;color:white;padding:18px;text-align:center;font-size:24px;}
-.search{padding:15px;}
-input{width:100%;padding:12px;border-radius:8px;border:none;}
-.card{background:white;margin:12px;padding:18px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,0.15);cursor:pointer;}
-.reader{display:none;background:white;margin:12px;padding:20px;border-radius:12px;line-height:1.9;}
-button{padding:10px;margin:5px;border:none;border-radius:6px;background:#6a1b9a;color:white;}
-audio{width:100%;margin:10px 0;}
-.actions{display:flex;gap:8px;flex-wrap:wrap;}
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#eef2f7,#dfe9f3);
+}
+
+/* HEADER */
+header {
+  background:#4a148c;
+  color:white;
+  padding:16px;
+  text-align:center;
+  font-size:22px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* SEARCH */
+.search {
+  padding:15px;
+}
+input {
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-size:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* STORY CARDS */
+.card {
+  background:white;
+  margin:12px;
+  padding:18px;
+  border-radius:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  cursor:pointer;
+  transition:0.3s;
+  font-weight:500;
+}
+.card:hover {
+  transform:translateY(-5px);
+  background:#f3e5f5;
+}
+
+/* STORY VIEW */
+.reader {
+  display:none;
+  margin:12px;
+  padding:20px;
+  border-radius:16px;
+  background:white;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  line-height:2;
+  animation:fadeIn 0.3s ease;
+}
+
+/* BUTTONS */
+button {
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  background:#6a1b9a;
+  color:white;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.2s;
+}
+button:hover {
+  background:#8e24aa;
+}
+
+/* AUDIO */
+audio {
+  width:100%;
+  margin:15px 0;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(10px);}
+  to {opacity:1; transform:translateY(0);}
+}
 </style>
 
 <script>
