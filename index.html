@@ -13,20 +13,19 @@
 body {
   margin:0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg,#eef2f7,#dfe9f3);
+  background: #0f172a;
+  color:white;
 }
 
 /* HEADER */
 header {
-  background:#4a148c;
-  color:white;
-  padding:16px;
+  padding:18px;
   text-align:center;
   font-size:22px;
+  font-weight:600;
+  background: linear-gradient(90deg,#6a1b9a,#9c27b0);
   position:sticky;
   top:0;
-  z-index:1000;
-  box-shadow:0 2px 10px rgba(0,0,0,0.2);
 }
 
 /* SEARCH */
@@ -38,51 +37,49 @@ input {
   padding:14px;
   border-radius:12px;
   border:none;
+  background:#1e293b;
+  color:white;
   font-size:15px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* STORY CARDS */
+/* GRID */
+.grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  padding:12px;
+}
+
+/* CARDS */
 .card {
-  background:white;
-  margin:12px;
-  padding:18px;
+  background:#1e293b;
+  padding:20px;
   border-radius:16px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  text-align:center;
+  font-weight:500;
   cursor:pointer;
   transition:0.3s;
-  font-weight:500;
 }
 .card:hover {
-  transform:translateY(-5px);
-  background:#f3e5f5;
+  background:#6a1b9a;
+  transform:scale(1.05);
 }
 
 /* STORY VIEW */
 .reader {
   display:none;
-  margin:12px;
   padding:20px;
-  border-radius:16px;
-  background:white;
-  box-shadow:0 4px 15px rgba(0,0,0,0.2);
   line-height:2;
-  animation:fadeIn 0.3s ease;
 }
 
-/* BUTTONS */
+/* BUTTON */
 button {
-  padding:10px 14px;
+  background:#9c27b0;
   border:none;
+  padding:10px 15px;
   border-radius:10px;
-  background:#6a1b9a;
   color:white;
-  font-weight:500;
-  cursor:pointer;
-  transition:0.2s;
-}
-button:hover {
-  background:#8e24aa;
+  margin-bottom:10px;
 }
 
 /* AUDIO */
@@ -90,14 +87,8 @@ audio {
   width:100%;
   margin:15px 0;
 }
-
-/* ANIMATION */
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1; transform:translateY(0);}
-}
 </style>
-
+  
 <script>
 function openStory(id){
   document.getElementById("home").style.display="none";
@@ -127,28 +118,31 @@ function bookmark(n){
 
 <body>
 
+
 <header>தமிழ் சுடர்</header>
 
 <div id="home">
   <div class="search">
-    <input id="search" placeholder="கதை தேடுக..." onkeyup="searchStories()">
+    <input placeholder="🔍 கதைகள் தேடுக..." onkeyup="searchStories()">
   </div>
 
-  <div class="card" onclick="openStory('s1')">1. நேர்மையான மரவெட்டியான்</div>
-  <div class="card" onclick="openStory('s2')">2. சிங்கம் மற்றும் எலி</div>
-  <div class="card" onclick="openStory('s3')">3. ஆமை மற்றும் முயல்</div>
-  <div class="card" onclick="openStory('s4')">4. நரி மற்றும் திராட்சை</div>
-  <div class="card" onclick="openStory('s5')">5. காகம் மற்றும் குடம்</div>
-  <div class="card" onclick="openStory('s6')">6. புத்திசாலி முயல்</div>
-  <div class="card" onclick="openStory('s7')">7. இரு நண்பர்கள் மற்றும் கரடி</div>
-  <div class="card" onclick="openStory('s8')">8. சோம்பேறி கழுதை</div>
-  <div class="card" onclick="openStory('s9')">9. பெருமை கொண்ட ரோஜா</div>
-  <div class="card" onclick="openStory('s10')">10. விவசாயி மற்றும் மகன்கள்</div>
-  <div class="card" onclick="openStory('s11')">11. நன்றி கற்ற நாய்</div>
-  <div class="card" onclick="openStory('s12')">12. அறிவில்லாத குரங்கு</div>
-  <div class="card" onclick="openStory('s13')">13. உழைப்பின் பலன்</div>
-  <div class="card" onclick="openStory('s14')">14. துணிவான சிறுவன்</div>
-  <div class="card" onclick="openStory('s15')">15. சிறிய எறும்பு</div>
+  <div class="grid">
+    <div class="card" onclick="openStory('s1')">Story 1</div>
+    <div class="card" onclick="openStory('s2')">Story 2</div>
+    <div class="card" onclick="openStory('s3')">Story 3</div>
+    <div class="card" onclick="openStory('s4')">Story 4</div>
+    <div class="card" onclick="openStory('s5')">Story 5</div>
+    <div class="card" onclick="openStory('s6')">Story 6</div>
+    <div class="card" onclick="openStory('s7')">Story 7</div>
+    <div class="card" onclick="openStory('s8')">Story 8</div>
+    <div class="card" onclick="openStory('s9')">Story 9</div>
+    <div class="card" onclick="openStory('s10')">Story 10</div>
+    <div class="card" onclick="openStory('s11')">Story 11</div>
+    <div class="card" onclick="openStory('s12')">Story 12</div>
+    <div class="card" onclick="openStory('s13')">Story 13</div>
+    <div class="card" onclick="openStory('s14')">Story 14</div>
+    <div class="card" onclick="openStory('s15')">Story 15</div>
+  </div>
 </div>
 
 <!-- STORY 1 -->
