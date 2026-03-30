@@ -98,17 +98,18 @@ audio {
   margin:15px 0;
 }
 </style>
-  
 <script>
 function openStory(id){
   document.getElementById("home").style.display="none";
   document.querySelectorAll(".reader").forEach(s=>s.style.display="none");
   document.getElementById(id).style.display="block";
 }
+
 function goHome(){
   document.querySelectorAll(".reader").forEach(s=>s.style.display="none");
   document.getElementById("home").style.display="block";
 }
+
 function searchStories(){
   let input=document.getElementById("search").value.toLowerCase();
   document.querySelectorAll(".card").forEach(c=>{
@@ -122,6 +123,8 @@ function bookmark(n){
     localStorage.setItem("bm",JSON.stringify(b));
     alert("⭐ Saved");
   }
+}
+
 function checkQuiz(btn){
   let quiz = btn.parentElement;
 
