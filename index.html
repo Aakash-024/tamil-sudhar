@@ -81,7 +81,17 @@ button {
   color:white;
   margin-bottom:10px;
 }
-
+.quiz{
+  background:#f3e5f5;
+  padding:15px;
+  margin-top:20px;
+  border-radius:12px;
+  color:black;
+}
+.result{
+  font-weight:bold;
+  margin-top:10px;
+}
 /* AUDIO */
 audio {
   width:100%;
@@ -112,6 +122,14 @@ function bookmark(n){
     localStorage.setItem("bm",JSON.stringify(b));
     alert("⭐ Saved");
   }
+function checkQuiz(btn){
+  let quiz = btn.parentElement;
+
+  let correct = quiz.querySelectorAll("input[data-correct='true']:checked").length;
+  let total = quiz.querySelectorAll("input[data-correct='true']").length;
+
+  quiz.querySelector(".result").innerText =
+    "Score: " + correct + " / " + total;
 }
 </script>
 </head>
@@ -178,6 +196,30 @@ function bookmark(n){
   Impressed by his honesty, the fairy gave him all three axes as a gift.<br>
   He returned home filled with joy.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. மரவெட்டியான் எங்கு வேலை செய்தான்?</p>
+<label><input type="radio" name="s1q1"> காடு</label><br>
+<label><input type="radio" name="s1q1"> வீடு</label><br>
+<label><input type="radio" name="s1q1" data-correct="true"> ஆற்றங்கரை</label><br>
+<label><input type="radio" name="s1q1"> பள்ளி</label><br>
+
+<p>2. தேவதை என்ன காட்டினாள்?</p>
+<label><input type="radio" name="s1q2"> கல்</label><br>
+<label><input type="radio" name="s1q2" data-correct="true"> தங்க கோடரி</label><br>
+<label><input type="radio" name="s1q2"> மரம்</label><br>
+<label><input type="radio" name="s1q2"> வீடு</label><br>
+
+<p>3. இந்தக் கதையின் நன்னெறி என்ன?</p>
+<label><input type="radio" name="s1q3"> பொய் பேச வேண்டும்</label><br>
+<label><input type="radio" name="s1q3" data-correct="true"> நேர்மை முக்கியம்</label><br>
+<label><input type="radio" name="s1q3"> சண்டை</label><br>
+<label><input type="radio" name="s1q3"> சோம்பேறித்தனம்</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 2 -->
@@ -213,6 +255,30 @@ function bookmark(n){
   The lion broke free and thanked the mouse.<br>
   It realized that even the small can be of help.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. சிங்கம் என்ன செய்தது?</p>
+<label><input type="radio" name="s2q1"> ஓடியது</label><br>
+<label><input type="radio" name="s2q1" data-correct="true"> தூங்கியது</label><br>
+<label><input type="radio" name="s2q1"> சாப்பிட்டது</label><br>
+<label><input type="radio" name="s2q1"> குதித்தது</label><br>
+
+<p>2. எலி என்ன செய்தது?</p>
+<label><input type="radio" name="s2q2"> மறைந்தது</label><br>
+<label><input type="radio" name="s2q2" data-correct="true"> உதவியது</label><br>
+<label><input type="radio" name="s2q2"> ஓடியது</label><br>
+<label><input type="radio" name="s2q2"> தூங்கியது</label><br>
+
+<p>3. கதையின் கருத்து?</p>
+<label><input type="radio" name="s2q3" data-correct="true"> சிறியவர்களும் உதவலாம்</label><br>
+<label><input type="radio" name="s2q3"> பெரியவர்கள் மட்டும்</label><br>
+<label><input type="radio" name="s2q3"> யாரையும் நம்பாதே</label><br>
+<label><input type="radio" name="s2q3"> சண்டை</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 3 -->
@@ -248,6 +314,30 @@ function bookmark(n){
   The hare accepted its defeat.<br>
   Patience and perseverance lead to success.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. யார் வேகமானவர்?</p>
+<label><input type="radio" name="s3q1" data-correct="true"> முயல்</label><br>
+<label><input type="radio" name="s3q1"> ஆமை</label><br>
+<label><input type="radio" name="s3q1"> நரி</label><br>
+<label><input type="radio" name="s3q1"> காகம்</label><br>
+
+<p>2. யார் வெற்றி பெற்றார்?</p>
+<label><input type="radio" name="s3q2"> முயல்</label><br>
+<label><input type="radio" name="s3q2" data-correct="true"> ஆமை</label><br>
+<label><input type="radio" name="s3q2"> சிங்கம்</label><br>
+<label><input type="radio" name="s3q2"> நரி</label><br>
+
+<p>3. கதையின் பாடம் என்ன?</p>
+<label><input type="radio" name="s3q3" data-correct="true"> மெதுவாக சென்றாலும் வெற்றி கிடைக்கும்</label><br>
+<label><input type="radio" name="s3q3"> வேகம் மட்டும் முக்கியம்</label><br>
+<label><input type="radio" name="s3q3"> தூங்க வேண்டும்</label><br>
+<label><input type="radio" name="s3q3"> விளையாடு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 4 -->
@@ -281,6 +371,30 @@ function bookmark(n){
   It then walked away from the spot in frustration.<br>
   This illustrates the tendency to disparage what one cannot attain.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. நரி என்ன கண்டது?</p>
+<label><input type="radio" name="s4q1"> ஆப்பிள்</label><br>
+<label><input type="radio" name="s4q1" data-correct="true"> திராட்சை</label><br>
+<label><input type="radio" name="s4q1"> வாழை</label><br>
+<label><input type="radio" name="s4q1"> மாம்பழம்</label><br>
+
+<p>2. அது ஏன் எடுக்க முடியவில்லை?</p>
+<label><input type="radio" name="s4q2"> அது உடைந்தது</label><br>
+<label><input type="radio" name="s4q2" data-correct="true"> அது உயரத்தில் இருந்தது</label><br>
+<label><input type="radio" name="s4q2"> அது மறைந்தது</label><br>
+<label><input type="radio" name="s4q2"> அது கெட்டது</label><br>
+
+<p>3. அது என்ன சொன்னது?</p>
+<label><input type="radio" name="s4q3" data-correct="true"> புளிப்பு</label><br>
+<label><input type="radio" name="s4q3"> இனிப்பு</label><br>
+<label><input type="radio" name="s4q3"> நல்லது</label><br>
+<label><input type="radio" name="s4q3"> கெட்டது</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 5 -->
@@ -316,6 +430,30 @@ function bookmark(n){
   The crow drank easily and quenched its thirst.<br>
   Intelligence provides a solution to problems.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. காகம் என்ன தேடியது?</p>
+<label><input type="radio" name="s5q1" data-correct="true"> தண்ணீர்</label><br>
+<label><input type="radio" name="s5q1"> உணவு</label><br>
+<label><input type="radio" name="s5q1"> கல்</label><br>
+<label><input type="radio" name="s5q1"> மரம்</label><br>
+
+<p>2. அது என்ன செய்தது?</p>
+<label><input type="radio" name="s5q2"> தூங்கியது</label><br>
+<label><input type="radio" name="s5q2" data-correct="true"> கற்கள் போட்டது</label><br>
+<label><input type="radio" name="s5q2"> ஓடியது</label><br>
+<label><input type="radio" name="s5q2"> மறைந்தது</label><br>
+
+<p>3. கதையின் பாடம் என்ன?</p>
+<label><input type="radio" name="s5q3" data-correct="true"> புத்திசாலித்தனம் முக்கியம்</label><br>
+<label><input type="radio" name="s5q3"> சண்டை</label><br>
+<label><input type="radio" name="s5q3"> பயம்</label><br>
+<label><input type="radio" name="s5q3"> தூங்கு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 6 -->
@@ -351,6 +489,30 @@ function bookmark(n){
   It fell into the well and died.<br>
   All the animals were saved.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. சிங்கம் என்ன செய்தது?</p>
+<label><input type="radio" name="s6q1" data-correct="true"> விலங்குகளை சாப்பிட்டது</label><br>
+<label><input type="radio" name="s6q1"> தூங்கியது</label><br>
+<label><input type="radio" name="s6q1"> ஓடியது</label><br>
+<label><input type="radio" name="s6q1"> விளையாடியது</label><br>
+
+<p>2. முயல் என்ன செய்தது?</p>
+<label><input type="radio" name="s6q2" data-correct="true"> திட்டம் போட்டது</label><br>
+<label><input type="radio" name="s6q2"> மறைந்தது</label><br>
+<label><input type="radio" name="s6q2"> ஓடியது</label><br>
+<label><input type="radio" name="s6q2"> தூங்கியது</label><br>
+
+<p>3. பாடம் என்ன?</p>
+<label><input type="radio" name="s6q3" data-correct="true"> புத்திசாலித்தனம் முக்கியம்</label><br>
+<label><input type="radio" name="s6q3"> பலம் முக்கியம்</label><br>
+<label><input type="radio" name="s6q3"> சண்டை</label><br>
+<label><input type="radio" name="s6q3"> பயம்</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 7 -->
@@ -386,6 +548,30 @@ function bookmark(n){
   “It told me not to trust those who abandon you in times of danger,” he replied.<br>
   True friendship is revealed in times of trial.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. யார் வந்தது?</p>
+<label><input type="radio" name="s7q1" data-correct="true"> கரடி</label><br>
+<label><input type="radio" name="s7q1"> சிங்கம்</label><br>
+<label><input type="radio" name="s7q1"> நரி</label><br>
+<label><input type="radio" name="s7q1"> யானை</label><br>
+
+<p>2. ஒருவர் என்ன செய்தார்?</p>
+<label><input type="radio" name="s7q2" data-correct="true"> மரத்தில் ஏறினார்</label><br>
+<label><input type="radio" name="s7q2"> ஓடியார்</label><br>
+<label><input type="radio" name="s7q2"> தூங்கினார்</label><br>
+<label><input type="radio" name="s7q2"> மறைந்தார்</label><br>
+
+<p>3. பாடம்?</p>
+<label><input type="radio" name="s7q3" data-correct="true"> உண்மையான நண்பன் முக்கியம்</label><br>
+<label><input type="radio" name="s7q3"> சண்டை</label><br>
+<label><input type="radio" name="s7q3"> பயம்</label><br>
+<label><input type="radio" name="s7q3"> ஓடு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 8 -->
@@ -421,6 +607,30 @@ function bookmark(n){
   The cotton soaked up the water, and the load became heavier.<br>
   Only then did it realize its mistake.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. கழுதை என்ன சுமந்தது?</p>
+<label><input type="radio" name="s8q1" data-correct="true"> உப்பு</label><br>
+<label><input type="radio" name="s8q1"> மரம்</label><br>
+<label><input type="radio" name="s8q1"> கல்</label><br>
+<label><input type="radio" name="s8q1"> தண்ணீர்</label><br>
+
+<p>2. அது என்ன செய்தது?</p>
+<label><input type="radio" name="s8q2"> ஓடியது</label><br>
+<label><input type="radio" name="s8q2" data-correct="true"> நீரில் விழுந்தது</label><br>
+<label><input type="radio" name="s8q2"> தூங்கியது</label><br>
+<label><input type="radio" name="s8q2"> சாப்பிட்டது</label><br>
+
+<p>3. கதையின் பாடம் என்ன?</p>
+<label><input type="radio" name="s8q3" data-correct="true"> சோம்பேறித்தனம் தவறு</label><br>
+<label><input type="radio" name="s8q3"> சண்டை முக்கியம்</label><br>
+<label><input type="radio" name="s8q3"> பயம் முக்கியம்</label><br>
+<label><input type="radio" name="s8q3"> தூங்கு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 9 -->
@@ -454,6 +664,30 @@ function bookmark(n){
   The rose realized its mistake and apologized.<br>
   It learned that “everyone has their own worth.”<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. யார் பெருமைப்பட்டார்?</p>
+<label><input type="radio" name="s9q1" data-correct="true"> ரோஜா</label><br>
+<label><input type="radio" name="s9q1"> நரி</label><br>
+<label><input type="radio" name="s9q1"> காகம்</label><br>
+<label><input type="radio" name="s9q1"> யானை</label><br>
+
+<p>2. அருகில் இருந்தது?</p>
+<label><input type="radio" name="s9q2" data-correct="true"> காக்டஸ்</label><br>
+<label><input type="radio" name="s9q2"> மரம்</label><br>
+<label><input type="radio" name="s9q2"> வீடு</label><br>
+<label><input type="radio" name="s9q2"> கல்</label><br>
+
+<p>3. பாடம் என்ன?</p>
+<label><input type="radio" name="s9q3" data-correct="true"> ஒவ்வொருவருக்கும் மதிப்பு உண்டு</label><br>
+<label><input type="radio" name="s9q3"> சண்டை</label><br>
+<label><input type="radio" name="s9q3"> பயம்</label><br>
+<label><input type="radio" name="s9q3"> ஓடு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 10 -->
@@ -489,6 +723,30 @@ function bookmark(n){
   They began to work together.<br>
   The family lived happily.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. விவசாயிக்கு எத்தனை மகன்கள்?</p>
+<label><input type="radio" name="s10q1" data-correct="true"> மூன்று</label><br>
+<label><input type="radio" name="s10q1"> இரண்டு</label><br>
+<label><input type="radio" name="s10q1"> ஐந்து</label><br>
+<label><input type="radio" name="s10q1"> ஒன்று</label><br>
+
+<p>2. அவர் என்ன கற்றார்?</p>
+<label><input type="radio" name="s10q2" data-correct="true"> ஒற்றுமை</label><br>
+<label><input type="radio" name="s10q2"> சண்டை</label><br>
+<label><input type="radio" name="s10q2"> பயம்</label><br>
+<label><input type="radio" name="s10q2"> ஓடு</label><br>
+
+<p>3. கதையின் பாடம் என்ன?</p>
+<label><input type="radio" name="s10q3" data-correct="true"> ஒன்றுபட்டால் வலிமை</label><br>
+<label><input type="radio" name="s10q3"> தனியாக இரு</label><br>
+<label><input type="radio" name="s10q3"> சண்டை செய்</label><br>
+<label><input type="radio" name="s10q3"> ஓடு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 11 -->
@@ -522,6 +780,30 @@ function bookmark(n){
   The dog was grateful.<br>
   It remained safe forever.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. நாய் யாரை காப்பாற்றியது?</p>
+<label><input type="radio" name="s11q1" data-correct="true"> உரிமையாளர்</label><br>
+<label><input type="radio" name="s11q1"> நண்பர்</label><br>
+<label><input type="radio" name="s11q1"> சிங்கம்</label><br>
+<label><input type="radio" name="s11q1"> நரி</label><br>
+
+<p>2. யார் வந்தார்?</p>
+<label><input type="radio" name="s11q2" data-correct="true"> திருடன்</label><br>
+<label><input type="radio" name="s11q2"> நண்பர்</label><br>
+<label><input type="radio" name="s11q2"> ஆசிரியர்</label><br>
+<label><input type="radio" name="s11q2"> மருத்துவர்</label><br>
+
+<p>3. பாடம் என்ன?</p>
+<label><input type="radio" name="s11q3" data-correct="true"> நன்றி முக்கியம்</label><br>
+<label><input type="radio" name="s11q3"> சண்டை</label><br>
+<label><input type="radio" name="s11q3"> பயம்</label><br>
+<label><input type="radio" name="s11q3"> ஓடு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 12 -->
@@ -555,6 +837,30 @@ function bookmark(n){
   It learned to respect others.<br>
   From then on, it lived as a good animal.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. யார் விழுந்தது?</p>
+<label><input type="radio" name="s12q1" data-correct="true"> குரங்கு</label><br>
+<label><input type="radio" name="s12q1"> நரி</label><br>
+<label><input type="radio" name="s12q1"> காகம்</label><br>
+<label><input type="radio" name="s12q1"> யானை</label><br>
+
+<p>2. அது என்ன உணர்ந்தது?</p>
+<label><input type="radio" name="s12q2" data-correct="true"> தவறு</label><br>
+<label><input type="radio" name="s12q2"> மகிழ்ச்சி</label><br>
+<label><input type="radio" name="s12q2"> கோபம்</label><br>
+<label><input type="radio" name="s12q2"> பயம்</label><br>
+
+<p>3. பாடம் என்ன?</p>
+<label><input type="radio" name="s12q3" data-correct="true"> பிறரை மதிக்க வேண்டும்</label><br>
+<label><input type="radio" name="s12q3"> சண்டை செய்</label><br>
+<label><input type="radio" name="s12q3"> ஓடு</label><br>
+<label><input type="radio" name="s12q3"> தூங்கு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 13 -->
@@ -588,6 +894,30 @@ function bookmark(n){
   His life reached new heights.<br>
   Hard work and perseverance lead to success.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. யார் உழைத்தார்?</p>
+<label><input type="radio" name="s13q1" data-correct="true"> மனிதன்</label><br>
+<label><input type="radio" name="s13q1"> நரி</label><br>
+<label><input type="radio" name="s13q1"> குரங்கு</label><br>
+<label><input type="radio" name="s13q1"> காகம்</label><br>
+
+<p>2. அவர் என்ன பெற்றார்?</p>
+<label><input type="radio" name="s13q2" data-correct="true"> வெற்றி</label><br>
+<label><input type="radio" name="s13q2"> தோல்வி</label><br>
+<label><input type="radio" name="s13q2"> பயம்</label><br>
+<label><input type="radio" name="s13q2"> சண்டை</label><br>
+
+<p>3. பாடம் என்ன?</p>
+<label><input type="radio" name="s13q3" data-correct="true"> உழைப்பு முக்கியம்</label><br>
+<label><input type="radio" name="s13q3"> சோம்பேறி இரு</label><br>
+<label><input type="radio" name="s13q3"> ஓடு</label><br>
+<label><input type="radio" name="s13q3"> தூங்கு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 14 -->
@@ -621,6 +951,30 @@ function bookmark(n){
   He returned home safely.<br>
   From that day on, he conquered his fear.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. சிறுவன் என்ன வென்றான்?</p>
+<label><input type="radio" name="s14q1" data-correct="true"> பயம்</label><br>
+<label><input type="radio" name="s14q1"> சண்டை</label><br>
+<label><input type="radio" name="s14q1"> ஓடு</label><br>
+<label><input type="radio" name="s14q1"> தூங்கு</label><br>
+
+<p>2. அவன் என்ன பெற்றான்?</p>
+<label><input type="radio" name="s14q2" data-correct="true"> தைரியம்</label><br>
+<label><input type="radio" name="s14q2"> பயம்</label><br>
+<label><input type="radio" name="s14q2"> சோம்பேறித்தனம்</label><br>
+<label><input type="radio" name="s14q2"> சண்டை</label><br>
+
+<p>3. பாடம் என்ன?</p>
+<label><input type="radio" name="s14q3" data-correct="true"> துணிவு முக்கியம்</label><br>
+<label><input type="radio" name="s14q3"> பயம் முக்கியம்</label><br>
+<label><input type="radio" name="s14q3"> ஓடு</label><br>
+<label><input type="radio" name="s14q3"> தூங்கு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 
 <!-- STORY 15 -->
@@ -654,6 +1008,30 @@ function bookmark(n){
   The value of hard work became apparent then.<br>
   Forethought safeguards one's life.<br>
   </p>
+  <div class="quiz">
+<h3>🧠 வினாக்கள்</h3>
+
+<p>1. எறும்பு என்ன செய்தது?</p>
+<label><input type="radio" name="s15q1" data-correct="true"> உணவு சேமித்தது</label><br>
+<label><input type="radio" name="s15q1"> தூங்கியது</label><br>
+<label><input type="radio" name="s15q1"> ஓடியது</label><br>
+<label><input type="radio" name="s15q1"> சண்டை செய்தது</label><br>
+
+<p>2. மற்றவர்கள் என்ன செய்தனர்?</p>
+<label><input type="radio" name="s15q2" data-correct="true"> விளையாடினர்</label><br>
+<label><input type="radio" name="s15q2"> வேலை செய்தனர்</label><br>
+<label><input type="radio" name="s15q2"> ஓடினர்</label><br>
+<label><input type="radio" name="s15q2"> தூங்கினர்</label><br>
+
+<p>3. பாடம் என்ன?</p>
+<label><input type="radio" name="s15q3" data-correct="true"> முன் திட்டமிடுதல் முக்கியம்</label><br>
+<label><input type="radio" name="s15q3"> சோம்பேறி இரு</label><br>
+<label><input type="radio" name="s15q3"> சண்டை செய்</label><br>
+<label><input type="radio" name="s15q3"> ஓடு</label><br>
+
+<button onclick="checkQuiz(this)">Submit</button>
+<p class="result"></p>
+</div>
 </div>
 <script>
 if ("serviceWorker" in navigator) {
