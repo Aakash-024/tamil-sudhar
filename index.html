@@ -1,1050 +1,206 @@
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="ta" data-theme="night">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>தமிழ் சுடர்</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="தமிழ் சுடர் — ஒலி வடிவம், படிக்கக்கூடிய கதைகள் மற்றும் வினாடி-வினாக்களுடன் கூடிய இலவச Tamil storytelling app.">
+  <meta name="theme-color" content="#150e2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>தமிழ் சுடர் — கதைகளின் ஒளி</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4a148c">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
-<style>
-body {
-  margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0f172a;
-  color:white;
-}
-
-/* HEADER */
-header {
-  padding:18px;
-  text-align:center;
-  font-size:22px;
-  font-weight:600;
-  background: linear-gradient(90deg,#6a1b9a,#9c27b0);
-  position:sticky;
-  top:0;
-}
-
-/* SEARCH */
-.search {
-  padding:15px;
-}
-input {
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  background:#1e293b;
-  color:white;
-  font-size:15px;
-}
-
-/* GRID */
-.grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  padding:12px;
-}
-
-/* CARDS */
-.card {
-  background:#1e293b;
-  padding:20px;
-  border-radius:16px;
-  text-align:center;
-  font-weight:500;
-  cursor:pointer;
-  transition:0.3s;
-}
-.card:hover {
-  background:#6a1b9a;
-  transform:scale(1.05);
-}
-
-/* STORY VIEW */
-.reader {
-  display:none;
-  padding:20px;
-  line-height:2;
-}
-
-/* BUTTON */
-button {
-  background:#9c27b0;
-  border:none;
-  padding:10px 15px;
-  border-radius:10px;
-  color:white;
-  margin-bottom:10px;
-}
-.quiz{
-  background:#f3e5f5;
-  padding:15px;
-  margin-top:20px;
-  border-radius:12px;
-  color:black;
-}
-.result{
-  font-weight:bold;
-  margin-top:10px;
-}
-/* AUDIO */
-audio {
-  width:100%;
-  margin:15px 0;
-}
-</style>
-<script>
-function openStory(id){
-  document.getElementById("home").style.display="none";
-  document.querySelectorAll(".reader").forEach(s=>s.style.display="none");
-  document.getElementById(id).style.display="block";
-}
-
-function goHome(){
-  document.querySelectorAll(".reader").forEach(s=>s.style.display="none");
-  document.getElementById("home").style.display="block";
-}
-
-function searchStories(){
-  let input=document.getElementById("search").value.toLowerCase();
-  document.querySelectorAll(".card").forEach(c=>{
-    c.style.display=c.innerText.toLowerCase().includes(input)?"block":"none";
-  });
-}
-function bookmark(n){
-  let b=JSON.parse(localStorage.getItem("bm"))||[];
-  if(!b.includes(n)){
-    b.push(n);
-    localStorage.setItem("bm",JSON.stringify(b));
-    alert("⭐ Saved");
-  }
-}
-
-function checkQuiz(btn){
-  let quiz = btn.parentElement;
-
-  let correct = quiz.querySelectorAll("input[data-correct='true']:checked").length;
-  let total = quiz.querySelectorAll("input[data-correct='true']").length;
-
-  quiz.querySelector(".result").innerText =
-    "Score: " + correct + " / " + total;
-}
-</script>
-</head>
-
 <body>
+  <!-- Tiny inline icon set so the app stays dependency-free -->
+  <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="7" rx="2"/><rect x="17" y="13" width="4" height="7" rx="2"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7zM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6 18 18M18 6 6 18"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M3 7h3c4 0 5 10 9 10h6m0 0-3-3m3 3-3 3M3 17h3c1.4 0 2.5-1.2 3.5-3M14 10c.9-1.8 2-3 4-3h3m0 0-3-3m3 3-3 3"/></symbol>
+  </svg>
 
+  <div class="ambient" aria-hidden="true"><span></span><span></span><span></span></div>
 
-<header>தமிழ் சுடர்</header>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark" aria-hidden="true"><svg><use href="#i-sparkle"/></svg></span>
+        <span class="brand-copy"><strong>தமிழ் சுடர்</strong><small>கதையால் கல்வி</small></span>
+        <span class="sr-only">முகப்பு</span>
+      </a>
 
-<div id="home">
-  <div class="search">
-    <input placeholder="🔍 கதைகள் தேடுக..." onkeyup="searchStories()">
+      <nav class="header-actions" aria-label="ஆப் விருப்பங்கள்">
+        <button class="icon-btn" id="bookmarksBtn" type="button" title="சேமித்த கதைகள்">
+          <svg><use href="#i-bookmark"/></svg><span class="count-badge" id="bookmarkCount" hidden>0</span>
+          <span class="sr-only">சேமித்த கதைகள்</span>
+        </button>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="தோற்றத்தை மாற்று" title="தோற்றத்தை மாற்று">
+          <svg><use href="#i-moon"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> தமிழ் நாட்டுப்புறக் கதைகள்</p>
+        <h1>கதைகளில்<br><span>தமிழின் ஒளி</span></h1>
+        <p class="hero-lede">கேளுங்கள், படியுங்கள், புரிந்துகொள்ளுங்கள். ஒலி வடிவத்துடன் கூடிய 15 கதைகளும், இருமொழி வாசிப்பும், வினாடி-வினாக்களும் உங்களுக்காகக் காத்திருக்கின்றன.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" id="browseBtn" type="button">கதைகளைக் காண்க <svg><use href="#i-arrow-right"/></svg></button>
+          <button class="btn btn-ghost" id="surpriseBtn" type="button"><svg><use href="#i-shuffle"/></svg> எனக்கொரு கதை தாருங்கள்</button>
+        </div>
+        <div class="hero-stats" aria-label="நூலகப் புள்ளிவிவரங்கள்">
+          <div><strong>15</strong><span>கதைகள்</span></div>
+          <div><strong>45</strong><span>வினாக்கள்</span></div>
+          <div><strong id="learnedStat">0</strong><span>நீங்கள் கற்றது</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-ring"></div>
+        <div class="hero-book">
+          <span class="book-glyph">📖</span>
+          <span class="book-spark s1">✦</span>
+          <span class="book-spark s2">✧</span>
+          <span class="book-spark s3">✦</span>
+        </div>
+        <div class="floating-note"><svg><use href="#i-headphones"/></svg> கேட்கக்கூடிய கதைகள்</div>
+        <div class="floating-note note-two"><svg><use href="#i-sparkle"/></svg> புத்திசாலித்தனம்</div>
+      </div>
+    </section>
+
+    <section class="library" id="library">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-line"></span> எங்கள் நூலகம்</p>
+          <h2>உங்கள் அடுத்த கதை</h2>
+          <p class="section-sub">ஒரு கதையைத் தேர்வு செய்து, ஒலியுடன் படிக்கத் தொடங்குங்கள்.</p>
+        </div>
+        <div class="progress-pill" id="progressPill" title="கற்றல் முன்னேற்றம்">
+          <span class="progress-ring"><span id="progressValue">0%</span></span>
+          <span>உங்கள்<br>முன்னேற்றம்</span>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <label class="search-box" for="searchInput">
+          <svg><use href="#i-search"/></svg>
+          <input id="searchInput" type="search" placeholder="கதை தேடுக…  (உதா: நரி, honesty)" autocomplete="off" spellcheck="false">
+          <kbd>/</kbd>
+        </label>
+        <div class="filters" id="filters" role="group" aria-label="வகை வடிகட்டி"></div>
+      </div>
+
+      <div class="story-grid" id="storyGrid"></div>
+      <div class="empty-state" id="emptyState" hidden>
+        <span aria-hidden="true">🔎</span>
+        <h3>கதை கிடைக்கவில்லை</h3>
+        <p>வேறு சொல் அல்லது வகையை முயற்சிக்கவும்.</p>
+        <button class="btn btn-ghost" id="clearFilters" type="button">வடிகட்டியை அழிக்க</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><span class="footer-mark">✦</span> தமிழ் சுடர்</div>
+    <p>கதைகள் மூலம் தமிழ் மொழியை அடுத்த தலைமுறைக்கு கொண்டு செல்ல ஒரு சிறு முயற்சி.</p>
+    <span class="footer-meta">இணையமில்லாமலும் வேலை செய்கிறது · PWA</span>
+  </footer>
+
+  <!-- READER -->
+  <div class="reader" id="reader" role="dialog" aria-modal="true" aria-labelledby="readerTitle" hidden>
+    <div class="reader-backdrop" data-close-reader></div>
+    <div class="reader-panel">
+      <header class="reader-header">
+        <button class="back-btn" id="readerBack" type="button"><svg><use href="#i-arrow-left"/></svg> <span>நூலகம்</span></button>
+        <div class="reader-heading">
+          <span class="reader-number" id="readerNumber">கதை 01</span>
+          <h2 id="readerTitle"></h2>
+        </div>
+        <button class="icon-btn reader-bookmark" id="readerBookmark" type="button" aria-label="இந்தக் கதையைச் சேமி" title="சேமி">
+          <svg><use href="#i-bookmark"/></svg>
+        </button>
+        <button class="icon-btn reader-close" type="button" data-close-reader aria-label="மூடு">
+          <svg><use href="#i-close"/></svg>
+        </button>
+      </header>
+
+      <div class="reader-content">
+        <div class="reading-column">
+          <div class="audio-card" id="audioCard">
+            <div class="audio-glyph" id="readerGlyph" aria-hidden="true">📖</div>
+            <div class="audio-details">
+              <p class="eyebrow"><svg><use href="#i-headphones"/></svg> கதை ஒலி</p>
+              <audio id="audio" controls preload="metadata"></audio>
+              <p class="audio-hint">ஒலி இயங்கும்போது வரிகள் ஒன்றன்பின் ஒன்றாக ஒளிர்கின்றன.</p>
+            </div>
+          </div>
+
+          <div class="reader-toolbar">
+            <div class="tabs" role="tablist" aria-label="மொழி">
+              <button class="tab is-active" type="button" role="tab" aria-selected="true" data-lang="ta">தமிழ்</button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-lang="en">English</button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-lang="both">இரண்டும்</button>
+            </div>
+            <button class="text-size-btn" id="textSizeBtn" type="button" title="எழுத்தைப் பெரிதாக்கு" aria-label="எழுத்தைப் பெரிதாக்கு">A<span>+</span></button>
+          </div>
+
+          <article class="story-text" id="storyText" aria-live="polite"></article>
+
+          <div class="reader-footer-nav">
+            <button class="btn btn-ghost" id="prevStory" type="button"><svg><use href="#i-arrow-left"/></svg> முந்தைய கதை</button>
+            <button class="btn btn-ghost" id="nextStory" type="button">அடுத்த கதை <svg><use href="#i-arrow-right"/></svg></button>
+          </div>
+        </div>
+
+        <aside class="quiz-column" aria-label="வினாடி-வினா">
+          <div class="quiz-card">
+            <p class="eyebrow"><svg><use href="#i-sparkle"/></svg> புரிதல் சோதனை</p>
+            <h3>நீங்கள் கேட்டதை நினைவில் உள்ளதா?</h3>
+            <p class="quiz-intro">ஒவ்வொரு கேள்விக்கும் ஒரு பதிலைத் தேர்வு செய்யவும்.</p>
+            <form id="quizForm">
+              <div id="quizQuestions"></div>
+              <div class="quiz-actions">
+                <button class="btn btn-primary btn-block" id="checkAnswers" type="submit">பதில்களைச் சோதிக்க <svg><use href="#i-arrow-right"/></svg></button>
+                <button class="btn btn-text btn-block" id="retryQuiz" type="button" hidden>மீண்டும் முயற்சிக்க</button>
+              </div>
+            </form>
+            <div class="score-panel" id="scorePanel" hidden aria-live="polite"></div>
+          </div>
+          <p class="quiz-tip">💡 பதில் தெரியாவிட்டால் கதையை மீண்டும் கேட்கலாம்.</p>
+        </aside>
+      </div>
+    </div>
   </div>
 
-  <div class="grid">
-    <div class="card" onclick="openStory('s1')">கதை 1</div>
-    <div class="card" onclick="openStory('s2')">கதை 2</div>
-    <div class="card" onclick="openStory('s3')">கதை 3</div>
-    <div class="card" onclick="openStory('s4')">கதை 4</div>
-    <div class="card" onclick="openStory('s5')">கதை 5</div>
-    <div class="card" onclick="openStory('s6')">கதை 6</div>
-    <div class="card" onclick="openStory('s7')">கதை 7</div>
-    <div class="card" onclick="openStory('s8')">கதை 8</div>
-    <div class="card" onclick="openStory('s9')">கதை 9</div>
-    <div class="card" onclick="openStory('s10')">கதை 10</div>
-    <div class="card" onclick="openStory('s11')">கதை 11</div>
-    <div class="card" onclick="openStory('s12')">கதை 12</div>
-    <div class="card" onclick="openStory('s13')">கதை 13</div>
-    <div class="card" onclick="openStory('s14')">கதை 14</div>
-    <div class="card" onclick="openStory('s15')">கதை 15</div>
-  </div>
-</div>
-
-<!-- STORY 1 -->
-<div id="s1" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(1)">⭐ Bookmark</button>
-  </div>
-  <h2>1. நேர்மையான மரவெட்டியான்</h2>
-  <audio controls><source src="Story-01.mp3"></audio>
-  <p>
-  ஒரு கிராமத்தில் ஒரு மரவெட்டியான் வாழ்ந்தான்.<br>
-  அவன் மிகவும் ஏழை என்றாலும் மனம் நல்லவன்.<br>
-  தினமும் காடு சென்று மரம் வெட்டிச் சாப்பாடு பெற்றான்.<br>
-  ஒரு நாள் ஆற்றங்கரையில் வேலை செய்தபோது கோடரி நீரில் விழுந்தது.<br>
-  அவன் கவலையுடன் உட்கார்ந்தான், என்ன செய்வது என்று யோசித்தான்.<br>
-  அப்போது ஒரு தேவதை தோன்றி காரணம் கேட்டாள்.<br>
-  தங்க கோடரியை காட்டினாள்; அவன் “இது எனது அல்ல” என்றான்.<br>
-  வெள்ளி கோடரியையும் மறுத்தான்; உண்மையை மட்டும் கூறினான்.<br>
-  இறுதியில் தனது இரும்புக் கோடரியை பெற்றான்.<br>
-  அவன் நேர்மையை பார்த்த தேவதை மூன்றையும் பரிசாக கொடுத்தாள்.<br>
-  அவன் மகிழ்ச்சியுடன் வீட்டிற்கு திரும்பினான்.<br>
-  ENGLISH TRANSLATION<br>
-  A woodcutter lived in a village.<br>
-  Although he was very poor, he was a good-hearted man.<br>
-  Every day, he would go to the forest to cut trees and earn his livelihood.<br>
-  One day, while he was working on the riverbank, his axe fell into the water.<br>
-  He sat down in distress, wondering what to do.<br>
-  Just then, a fairy appeared and asked him the reason for his sorrow.<br>
-  She showed him a golden axe; he replied, "This is not mine."<br>
-  He also declined a silver axe, speaking nothing but the truth.<br>
-  Finally, he received his own iron axe.<br>
-  Impressed by his honesty, the fairy gave him all three axes as a gift.<br>
-  He returned home filled with joy.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. மரவெட்டியான் எங்கு வேலை செய்தான்?</p>
-<label><input type="radio" name="s1q1"> காடு</label><br>
-<label><input type="radio" name="s1q1"> வீடு</label><br>
-<label><input type="radio" name="s1q1" data-correct="true"> ஆற்றங்கரை</label><br>
-<label><input type="radio" name="s1q1"> பள்ளி</label><br>
-
-<p>2. தேவதை என்ன காட்டினாள்?</p>
-<label><input type="radio" name="s1q2"> கல்</label><br>
-<label><input type="radio" name="s1q2" data-correct="true"> தங்க கோடரி</label><br>
-<label><input type="radio" name="s1q2"> மரம்</label><br>
-<label><input type="radio" name="s1q2"> வீடு</label><br>
-
-<p>3. இந்தக் கதையின் நன்னெறி என்ன?</p>
-<label><input type="radio" name="s1q3"> பொய் பேச வேண்டும்</label><br>
-<label><input type="radio" name="s1q3" data-correct="true"> நேர்மை முக்கியம்</label><br>
-<label><input type="radio" name="s1q3"> சண்டை</label><br>
-<label><input type="radio" name="s1q3"> சோம்பேறித்தனம்</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 2 -->
-<div id="s2" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(2)">⭐ Bookmark</button>
-  </div>
-  <h2>2. சிங்கம் மற்றும் எலி</h2>
-  <audio controls><source src="Story-02.mp3"></audio>
-  <p>
-  ஒரு நாள் ஒரு சிங்கம் மரத்தின் கீழ் தூங்கிக் கொண்டிருந்தது.<br>
-  அப்போது ஒரு சிறிய எலி அதன் மேல் ஓடிவந்தது.<br>
-  சிங்கம் கோபமாக எழுந்து எலியை பிடித்தது.<br>
-  எலி “என்னை விடுங்கள்; ஒருநாள் உதவுவேன்” என்று கேட்டது.<br>
-  சிங்கம் சிரித்தாலும் கருணையால் அதை விட்டுவிட்டது.<br>
-  சில நாட்கள் கழித்து சிங்கம் வேட்டைக்காரரின் வலையில் சிக்கியது.<br>
-  அது பலமாக கர்ஜித்தது; உதவி தேடியது.<br>
-  அந்த சத்தத்தை கேட்டு எலி வந்தது.<br>
-  அது கயிறுகளை கடித்து வலையை கிழித்தது.<br>
-  சிங்கம் விடுபட்டு எலிக்கு நன்றி கூறியது.<br>
-  சிறியவர்களும் உதவ முடியும் என்பதை அது உணர்ந்தது.<br>
-  ENGLISH TRANSLATION<br>
-  One day, a lion was sleeping under a tree.<br>
-  Just then, a small mouse ran over it.<br>
-  The lion woke up angrily and caught the mouse.<br>
-  The mouse pleaded, "Please let me go; I will help you someday."<br>
-  Although the lion laughed, it let the mouse go out of compassion.<br>
-  A few days later, the lion got caught in a hunter's net.<br>
-  It roared loudly, seeking help.<br>
-  Hearing the sound, the mouse arrived.<br>
-  It gnawed through the ropes and tore the net apart.<br>
-  The lion broke free and thanked the mouse.<br>
-  It realized that even the small can be of help.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. சிங்கம் என்ன செய்தது?</p>
-<label><input type="radio" name="s2q1"> ஓடியது</label><br>
-<label><input type="radio" name="s2q1" data-correct="true"> தூங்கியது</label><br>
-<label><input type="radio" name="s2q1"> சாப்பிட்டது</label><br>
-<label><input type="radio" name="s2q1"> குதித்தது</label><br>
-
-<p>2. எலி என்ன செய்தது?</p>
-<label><input type="radio" name="s2q2"> மறைந்தது</label><br>
-<label><input type="radio" name="s2q2" data-correct="true"> உதவியது</label><br>
-<label><input type="radio" name="s2q2"> ஓடியது</label><br>
-<label><input type="radio" name="s2q2"> தூங்கியது</label><br>
-
-<p>3. கதையின் கருத்து?</p>
-<label><input type="radio" name="s2q3" data-correct="true"> சிறியவர்களும் உதவலாம்</label><br>
-<label><input type="radio" name="s2q3"> பெரியவர்கள் மட்டும்</label><br>
-<label><input type="radio" name="s2q3"> யாரையும் நம்பாதே</label><br>
-<label><input type="radio" name="s2q3"> சண்டை</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 3 -->
-<div id="s3" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(3)">⭐ Bookmark</button>
-  </div>
-  <h2>3. ஆமை மற்றும் முயல்</h2>
-  <audio controls><source src="Story-03.mp3"></audio>
-  <p>
-  முயல் தனது வேகத்தைப் பற்றி எப்போதும் பெருமைப்பட்டு பேசும்.<br>
-  மெதுவாக நடக்கும் ஆமையை அது கேலி செய்தது.<br>
-  ஆமை அமைதியாக ஓட்டப்பந்தயத்திற்கு சவால் விட்டது.<br>
-  போட்டி தொடங்கியது; முயல் வேகமாக முன்னேறியது.<br>
-  “இதை எளிதாக ஜெயிப்பேன்” என்று நினைத்து நடுவில் தூங்கியது.<br>
-  ஆமை மெதுவாக இருந்தாலும் நின்றதே இல்லை.<br>
-  அது தொடர்ந்து முன்னேறிக் கொண்டே இருந்தது.<br>
-  தூக்கத்தில் இருந்த முயல் தாமதமாக எழுந்தது.<br>
-  ஓடினாலும், ஆமை இலக்கை அடைந்து விட்டது.<br>
-  முயல் தோல்வியை ஏற்றுக் கொண்டது.<br>
-  பொறுமையும் தொடர்ந்து முயற்சியும் வெற்றி தரும்.<br>
-  ENGLISH TRANSLATION<br>
-  The hare always boasted about its speed.<br>
-  It mocked the slow-moving tortoise.<br>
-  The tortoise calmly challenged it to a race.<br>
-  The race began, and the hare sped ahead.<br>
-  Thinking, "I will win this easily," it took a nap halfway through.<br>
-  Although the tortoise was slow, it never stopped.<br>
-  It kept moving forward continuously.<br>
-  The sleeping hare woke up late.<br>
-  Even though it ran, the tortoise had already reached the finish line.<br>
-  The hare accepted its defeat.<br>
-  Patience and perseverance lead to success.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. யார் வேகமானவர்?</p>
-<label><input type="radio" name="s3q1" data-correct="true"> முயல்</label><br>
-<label><input type="radio" name="s3q1"> ஆமை</label><br>
-<label><input type="radio" name="s3q1"> நரி</label><br>
-<label><input type="radio" name="s3q1"> காகம்</label><br>
-
-<p>2. யார் வெற்றி பெற்றார்?</p>
-<label><input type="radio" name="s3q2"> முயல்</label><br>
-<label><input type="radio" name="s3q2" data-correct="true"> ஆமை</label><br>
-<label><input type="radio" name="s3q2"> சிங்கம்</label><br>
-<label><input type="radio" name="s3q2"> நரி</label><br>
-
-<p>3. கதையின் பாடம் என்ன?</p>
-<label><input type="radio" name="s3q3" data-correct="true"> மெதுவாக சென்றாலும் வெற்றி கிடைக்கும்</label><br>
-<label><input type="radio" name="s3q3"> வேகம் மட்டும் முக்கியம்</label><br>
-<label><input type="radio" name="s3q3"> தூங்க வேண்டும்</label><br>
-<label><input type="radio" name="s3q3"> விளையாடு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 4 -->
-<div id="s4" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(4)">⭐ Bookmark</button>
-  </div>
-  <h2>4. நரி மற்றும் திராட்சை</h2>
-  <audio controls><source src="Story-04.mp3"></audio>
-  <p>
-  ஒரு நரி மிகவும் பசித்து உணவு தேடி நடந்தது.<br>
-  அது ஒரு திராட்சை கொடியை கண்டது.<br>
-  கொடியிலிருந்த திராட்சைகள் பசுமையாகத் தோன்றின.<br>
-  அவை உயரத்தில் இருந்ததால் எட்ட முடியவில்லை.<br>
-  நரி பலமுறை தாவி முயன்றது.<br>
-  ஒவ்வொரு முறையும் அது தோல்வியடைந்தது.<br>
-  சோர்ந்து நின்ற நரி சுற்றி பார்த்தது.<br>
-  “இந்த திராட்சை புளிப்பு தான்” என்று சொன்னது<br>
-  அது விரக்தியுடன் அங்கிருந்து சென்றது.<br>
-  அடைய முடியாததை தாழ்த்திப் பேசும் பழக்கத்தை இது காட்டுகிறது.<br>
-  ENGLISH TRANSLATION<br>
-  A fox, feeling very hungry, went in search of food.<br>
-  It spotted a grapevine.<br>
-  The grapes on the vine appeared lush and green.<br>
-  However, as they were hanging high up, the fox could not reach them.<br>
-  The fox leaped and tried several times.<br>
-  Each time, it failed.<br>
-  Exhausted, the fox paused and looked around.<br>
-  "These grapes are sour," it remarked.<br>
-  It then walked away from the spot in frustration.<br>
-  This illustrates the tendency to disparage what one cannot attain.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. நரி என்ன கண்டது?</p>
-<label><input type="radio" name="s4q1"> ஆப்பிள்</label><br>
-<label><input type="radio" name="s4q1" data-correct="true"> திராட்சை</label><br>
-<label><input type="radio" name="s4q1"> வாழை</label><br>
-<label><input type="radio" name="s4q1"> மாம்பழம்</label><br>
-
-<p>2. அது ஏன் எடுக்க முடியவில்லை?</p>
-<label><input type="radio" name="s4q2"> அது உடைந்தது</label><br>
-<label><input type="radio" name="s4q2" data-correct="true"> அது உயரத்தில் இருந்தது</label><br>
-<label><input type="radio" name="s4q2"> அது மறைந்தது</label><br>
-<label><input type="radio" name="s4q2"> அது கெட்டது</label><br>
-
-<p>3. அது என்ன சொன்னது?</p>
-<label><input type="radio" name="s4q3" data-correct="true"> புளிப்பு</label><br>
-<label><input type="radio" name="s4q3"> இனிப்பு</label><br>
-<label><input type="radio" name="s4q3"> நல்லது</label><br>
-<label><input type="radio" name="s4q3"> கெட்டது</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 5 -->
-<div id="s5" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(5)">⭐ Bookmark</button>
-  </div>
-  <h2>5. காகம் மற்றும் குடம்</h2>
-  <audio controls><source src="Story-05.mp3"></audio>
-  <p>
-  ஒரு காகம் வெயிலில் பறந்து மிகவும் தாகமாகியது.<br>
-  அது தண்ணீர் தேடி பல இடங்களில் சுற்றியது.<br>
-  இறுதியில் ஒரு குடத்தை கண்டது.<br>
-  குடத்தில் தண்ணீர் இருந்தது ஆனால் மிகவும் கீழே இருந்தது.<br>
-  காகம் அலகால் எட்ட முடியவில்லை.<br>
-  அது யோசித்து ஒரு திட்டம் போட்டது.<br>
-  அருகிலிருந்த சிறு கற்களை எடுத்தது.<br>
-  அவற்றை ஒன்றன்பின் ஒன்றாக குடத்தில் போட்டது.<br>
-  தண்ணீர் மெதுவாக மேலே வந்தது.<br>
-  காகம் சுலபமாக குடித்து தாகம் தீர்த்தது.<br>
-  புத்திசாலித்தனம் பிரச்சினைக்கு தீர்வாகும்.<br>
-  ENGLISH TRANSLATION<br>
-  A crow flew in the scorching sun and became very thirsty.<br>
-  It wandered through many places in search of water.<br>
-  Finally, it spotted a pot.<br>
-  There was water in the pot, but it was very low down.<br>
-  The crow could not reach it with its beak.<br>
-  It thought for a moment and devised a plan.<br>
-  It picked up some small pebbles lying nearby.<br>
-  It dropped them into the pot, one after another.<br>
-  The water slowly rose to the top.<br>
-  The crow drank easily and quenched its thirst.<br>
-  Intelligence provides a solution to problems.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. காகம் என்ன தேடியது?</p>
-<label><input type="radio" name="s5q1" data-correct="true"> தண்ணீர்</label><br>
-<label><input type="radio" name="s5q1"> உணவு</label><br>
-<label><input type="radio" name="s5q1"> கல்</label><br>
-<label><input type="radio" name="s5q1"> மரம்</label><br>
-
-<p>2. அது என்ன செய்தது?</p>
-<label><input type="radio" name="s5q2"> தூங்கியது</label><br>
-<label><input type="radio" name="s5q2" data-correct="true"> கற்கள் போட்டது</label><br>
-<label><input type="radio" name="s5q2"> ஓடியது</label><br>
-<label><input type="radio" name="s5q2"> மறைந்தது</label><br>
-
-<p>3. கதையின் பாடம் என்ன?</p>
-<label><input type="radio" name="s5q3" data-correct="true"> புத்திசாலித்தனம் முக்கியம்</label><br>
-<label><input type="radio" name="s5q3"> சண்டை</label><br>
-<label><input type="radio" name="s5q3"> பயம்</label><br>
-<label><input type="radio" name="s5q3"> தூங்கு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 6 -->
-<div id="s6" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(6)">⭐ Bookmark</button>
-  </div>
-  <h2>6. புத்திசாலி முயல்</h2>
-  <audio controls><source src="Story-06.mp3"></audio>
-  <p>
-  ஒரு காட்டில் ஒரு கொடிய சிங்கம் வாழ்ந்தது.<br>
-  அது தினமும் விலங்குகளை வேட்டையாடியது.<br>
-  பயந்த விலங்குகள் ஒரு உடன்பாடு செய்தன.<br>
-  தினமும் ஒருவரை சிங்கத்திற்கு அனுப்ப முடிவு செய்தனர்.<br>
-  ஒரு நாள் ஒரு சிறிய முயலின் வரிசை வந்தது.<br>
-  அது திட்டமிட்டு தாமதமாக சென்றது.<br>
-  கோபமடைந்த சிங்கத்திடம் “மற்றொரு சிங்கம் தடுப்பது” என்றது.<br>
-  அதை கிணற்றிற்கு அழைத்துச் சென்றது.<br>
-  நீரில் பிரதிபலிப்பை பார்த்த சிங்கம் குதித்தது.<br>
-  அது கிணற்றில் விழுந்து இறந்தது.<br>
-  விலங்குகள் எல்லாம் காப்பாற்றப்பட்டன.<br>
-  ENGLISH TRANSLATION<br>
-  A ferocious lion lived in a forest.<br>
-  It hunted animals every day.<br>
-  The frightened animals reached an agreement.<br>
-  They decided to send one of their own to the lion each day.<br>
-  One day, it was the turn of a small rabbit.<br>
-  It deliberately arrived late.<br>
-  To the enraged lion, it claimed, "Another lion blocked my path."<br>
-  It led the lion to a well.<br>
-  Upon seeing its reflection in the water, the lion leaped in.<br>
-  It fell into the well and died.<br>
-  All the animals were saved.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. சிங்கம் என்ன செய்தது?</p>
-<label><input type="radio" name="s6q1" data-correct="true"> விலங்குகளை சாப்பிட்டது</label><br>
-<label><input type="radio" name="s6q1"> தூங்கியது</label><br>
-<label><input type="radio" name="s6q1"> ஓடியது</label><br>
-<label><input type="radio" name="s6q1"> விளையாடியது</label><br>
-
-<p>2. முயல் என்ன செய்தது?</p>
-<label><input type="radio" name="s6q2" data-correct="true"> திட்டம் போட்டது</label><br>
-<label><input type="radio" name="s6q2"> மறைந்தது</label><br>
-<label><input type="radio" name="s6q2"> ஓடியது</label><br>
-<label><input type="radio" name="s6q2"> தூங்கியது</label><br>
-
-<p>3. பாடம் என்ன?</p>
-<label><input type="radio" name="s6q3" data-correct="true"> புத்திசாலித்தனம் முக்கியம்</label><br>
-<label><input type="radio" name="s6q3"> பலம் முக்கியம்</label><br>
-<label><input type="radio" name="s6q3"> சண்டை</label><br>
-<label><input type="radio" name="s6q3"> பயம்</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 7 -->
-<div id="s7" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(7)">⭐ Bookmark</button>
-  </div>
-  <h2>7. இரு நண்பர்கள் மற்றும் கரடி</h2>
-  <audio controls><source src="Story-07.mp3"></audio>
-  <p>
-  இரண்டு நண்பர்கள் காட்டுப் பாதையில் பயணம் செய்தனர்.<br>
-  திடீரென ஒரு கரடி அவர்களை நோக்கி வந்தது.<br>
-  ஒருவர் உடனே மரத்தில் ஏறி தன்னை காப்பாற்றிக் கொண்டார்.<br>
-  மற்றவருக்கு ஏற தெரியவில்லை.<br>
-  அவர் தரையில் படுத்து மூச்சை அடக்கி இறந்தவரைப் போல இருந்தார்.<br>
-  கரடி வந்து முகத்தை மணந்து பார்த்தது.<br>
-  எந்த அசைவும் இல்லாததால் அது சென்றது.<br>
-  பின்னர் மரத்தில் இருந்த நண்பன் கீழே இறங்கினார்.<br>
-  “கரடி என்ன சொன்னது?” என்று கேட்டார்.<br>
-  “ஆபத்தில் உன்னை விட்டுவிடுபவர்களை நம்பாதே” என்றது என்றார்.<br>
-  உண்மையான நட்பு சோதனையில் தெரியும்.<br>
-  ENGLISH TRANSLATION<br>
-  Two friends were traveling along a forest path.<br>
-  Suddenly, a bear approached them.<br>
-  One of them immediately climbed a tree and saved himself.<br>
-  The other did not know how to climb.<br>
-  He lay down on the ground, held his breath, and pretended to be dead.<br>
-  The bear came over and sniffed his face.<br>
-  Since there was no movement, it walked away.<br>
-  Later, the friend who was in the tree climbed down.<br>
-  “What did the bear say?” he asked.<br>
-  “It told me not to trust those who abandon you in times of danger,” he replied.<br>
-  True friendship is revealed in times of trial.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. யார் வந்தது?</p>
-<label><input type="radio" name="s7q1" data-correct="true"> கரடி</label><br>
-<label><input type="radio" name="s7q1"> சிங்கம்</label><br>
-<label><input type="radio" name="s7q1"> நரி</label><br>
-<label><input type="radio" name="s7q1"> யானை</label><br>
-
-<p>2. ஒருவர் என்ன செய்தார்?</p>
-<label><input type="radio" name="s7q2" data-correct="true"> மரத்தில் ஏறினார்</label><br>
-<label><input type="radio" name="s7q2"> ஓடியார்</label><br>
-<label><input type="radio" name="s7q2"> தூங்கினார்</label><br>
-<label><input type="radio" name="s7q2"> மறைந்தார்</label><br>
-
-<p>3. பாடம்?</p>
-<label><input type="radio" name="s7q3" data-correct="true"> உண்மையான நண்பன் முக்கியம்</label><br>
-<label><input type="radio" name="s7q3"> சண்டை</label><br>
-<label><input type="radio" name="s7q3"> பயம்</label><br>
-<label><input type="radio" name="s7q3"> ஓடு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 8 -->
-<div id="s8" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(8)">⭐ Bookmark</button>
-  </div>
-  <h2>8. சோம்பேறி கழுதை</h2>
-  <audio controls><source src="Story-08.mp3"></audio>
-  <p>
-  ஒரு கழுதை தினமும் உப்பு மூட்டைகளை சுமந்தது.<br>
-  அது ஆற்றை கடந்து சந்தைக்கு செல்வது வழக்கம்.<br>
-  ஒருநாள் தவறி நீரில் விழுந்தது.<br>
-  உப்பு கரைந்து சுமை குறைந்தது.<br>
-  இதை அது ஒரு வழியாக நினைத்தது.<br>
-  அடுத்த நாட்களிலும் தானாகவே நீரில் விழுந்தது.<br>
-  உரிமையாளர் இதை கவனித்தார்.<br>
-  ஒரு நாள் உப்புக்கு பதிலாக பருத்தி ஏற்றினார்.<br>
-  கழுதை மீண்டும் நீரில் விழுந்தது.<br>
-  பருத்தி தண்ணீர் குடித்து சுமை அதிகமானது.<br>
-  அப்போதுதான் அது தன் தவறை உணர்ந்தது.<br>
-  ENGLISH TRANSLATION<br>
-  A donkey carried sacks of salt every day.<br>
-  It was its routine to cross a river on its way to the market.<br>
-  One day, it accidentally fell into the water.<br>
-  The salt dissolved, and the load became lighter.<br>
-  It perceived this as a clever trick.<br>
-  On subsequent days, it deliberately fell into the water.<br>
-  Its owner noticed this.<br>
-  One day, instead of salt, he loaded cotton onto it.<br>
-  The donkey fell into the water once again.<br>
-  The cotton soaked up the water, and the load became heavier.<br>
-  Only then did it realize its mistake.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. கழுதை என்ன சுமந்தது?</p>
-<label><input type="radio" name="s8q1" data-correct="true"> உப்பு</label><br>
-<label><input type="radio" name="s8q1"> மரம்</label><br>
-<label><input type="radio" name="s8q1"> கல்</label><br>
-<label><input type="radio" name="s8q1"> தண்ணீர்</label><br>
-
-<p>2. அது என்ன செய்தது?</p>
-<label><input type="radio" name="s8q2"> ஓடியது</label><br>
-<label><input type="radio" name="s8q2" data-correct="true"> நீரில் விழுந்தது</label><br>
-<label><input type="radio" name="s8q2"> தூங்கியது</label><br>
-<label><input type="radio" name="s8q2"> சாப்பிட்டது</label><br>
-
-<p>3. கதையின் பாடம் என்ன?</p>
-<label><input type="radio" name="s8q3" data-correct="true"> சோம்பேறித்தனம் தவறு</label><br>
-<label><input type="radio" name="s8q3"> சண்டை முக்கியம்</label><br>
-<label><input type="radio" name="s8q3"> பயம் முக்கியம்</label><br>
-<label><input type="radio" name="s8q3"> தூங்கு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 9 -->
-<div id="s9" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(9)">⭐ Bookmark</button>
-  </div>
-  <h2>9. பெருமை கொண்ட ரோஜா</h2>
-  <audio controls><source src="Story-09.mp3"></audio>
-  <p>
-  ஒரு தோட்டத்தில் அழகான ரோஜா மலர் இருந்தது.<br>
-  அருகில் ஒரு காக்டஸ் செடியும் இருந்தது.<br>
-  ரோஜா தன் அழகை பற்றி பெருமைப்பட்டு காக்டஸை கேலி செய்தது.<br>
-  “நீ முள்ளுகளே, உன்னால் என்ன பயன்?” என்று சொன்னது.<br>
-  வெயில் காலம் வந்தது; தண்ணீர் குறைந்தது.<br>
-  ரோஜா வாடத் தொடங்கியது.<br>
-  காக்டஸ் உள்ளே தண்ணீர் சேமித்து இருந்தது.<br>
-  பறவைகள் காக்டஸிலிருந்து தண்ணீர் குடித்தன.<br>
-  ரோஜா தன் தவறை உணர்ந்து மன்னிப்பு கேட்டது.<br>
-  “ஒவ்வொருவருக்கும் தன் மதிப்பு உண்டு” என்று கற்றது.<br>
-  ENGLISH TRANSLATION<br>
-  In a garden, there was a beautiful rose flower.<br>
-  Nearby, there was also a cactus plant.<br>
-  The rose took pride in its beauty and mocked the cactus.<br>
-  “You are nothing but thorns; what use are you?” it said.<br>
-  The summer season arrived, and water became scarce.<br>
-  The rose began to wither.<br>
-  The cactus had stored water inside itself.<br>
-  Birds drank water from the cactus.<br>
-  The rose realized its mistake and apologized.<br>
-  It learned that “everyone has their own worth.”<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. யார் பெருமைப்பட்டார்?</p>
-<label><input type="radio" name="s9q1" data-correct="true"> ரோஜா</label><br>
-<label><input type="radio" name="s9q1"> நரி</label><br>
-<label><input type="radio" name="s9q1"> காகம்</label><br>
-<label><input type="radio" name="s9q1"> யானை</label><br>
-
-<p>2. அருகில் இருந்தது?</p>
-<label><input type="radio" name="s9q2" data-correct="true"> காக்டஸ்</label><br>
-<label><input type="radio" name="s9q2"> மரம்</label><br>
-<label><input type="radio" name="s9q2"> வீடு</label><br>
-<label><input type="radio" name="s9q2"> கல்</label><br>
-
-<p>3. பாடம் என்ன?</p>
-<label><input type="radio" name="s9q3" data-correct="true"> ஒவ்வொருவருக்கும் மதிப்பு உண்டு</label><br>
-<label><input type="radio" name="s9q3"> சண்டை</label><br>
-<label><input type="radio" name="s9q3"> பயம்</label><br>
-<label><input type="radio" name="s9q3"> ஓடு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 10 -->
-<div id="s10" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(10)">⭐ Bookmark</button>
-  </div>
-  <h2>10. விவசாயி மற்றும் மகன்கள்</h2>
-  <audio controls><source src="Story-10.mp3"></audio>
-  <p>
-  ஒரு விவசாயிக்கு மூன்று மகன்கள் இருந்தனர்.<br>
-  அவர்கள் அடிக்கடி சண்டையிட்டு ஒத்துழைக்கவில்லை.<br>
-  வயதான தந்தை கவலைப்பட்டார்.<br>
-  ஒரு நாள் குச்சிகளின் கட்டை கொண்டு வந்தார்.<br>
-  அதை உடைக்கச் சொன்னார்; யாருக்கும் முடியவில்லை.<br>
-  பின்னர் குச்சிகளை தனித்தனியாக கொடுத்தார்.<br>
-  ஒவ்வொருவரும் எளிதாக உடைத்தனர்.<br>
-  “ஒன்றுபட்டால் யாரும் உடைக்க முடியாது” என்றார்.<br>
-  மகன்கள் பாடம் கற்றனர்.<br>
-  அவர்கள் இணைந்து வேலை செய்யத் தொடங்கினர்.<br>
-  குடும்பம் மகிழ்ச்சியாக இருந்தது.<br>
-  ENGLISH TRANSLATION<br>
-  A farmer had three sons.<br>
-  They often quarreled and did not cooperate.<br>
-  The elderly father was worried.<br>
-  One day, he brought a bundle of sticks.<br>
-  He asked them to break it; no one could.<br>
-  Then, he gave them the sticks individually.<br>
-  Each of them broke them easily.<br>
-  “If you remain united, no one can break you,” he said.<br>
-  The sons learned their lesson.<br>
-  They began to work together.<br>
-  The family lived happily.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. விவசாயிக்கு எத்தனை மகன்கள்?</p>
-<label><input type="radio" name="s10q1" data-correct="true"> மூன்று</label><br>
-<label><input type="radio" name="s10q1"> இரண்டு</label><br>
-<label><input type="radio" name="s10q1"> ஐந்து</label><br>
-<label><input type="radio" name="s10q1"> ஒன்று</label><br>
-
-<p>2. அவர் என்ன கற்றார்?</p>
-<label><input type="radio" name="s10q2" data-correct="true"> ஒற்றுமை</label><br>
-<label><input type="radio" name="s10q2"> சண்டை</label><br>
-<label><input type="radio" name="s10q2"> பயம்</label><br>
-<label><input type="radio" name="s10q2"> ஓடு</label><br>
-
-<p>3. கதையின் பாடம் என்ன?</p>
-<label><input type="radio" name="s10q3" data-correct="true"> ஒன்றுபட்டால் வலிமை</label><br>
-<label><input type="radio" name="s10q3"> தனியாக இரு</label><br>
-<label><input type="radio" name="s10q3"> சண்டை செய்</label><br>
-<label><input type="radio" name="s10q3"> ஓடு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 11 -->
-<div id="s11" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(11)">⭐ Bookmark</button>
-  </div>
-  <h2>11. நன்றி கற்ற நாய்</h2>
-  <audio controls><source src="Story-11.mp3"></audio>
-  <p>
-  ஒரு நாய் தனது உரிமையாளருடன் வாழ்ந்தது.<br>
-  அவன் அதை அன்பாக வளர்த்தான்.<br>
-  ஒருநாள் இரவில் ஒரு திருடன் வீட்டில் நுழைந்தான்.<br>
-  நாய் அதை கவனித்து சத்தமாக குரைத்தது.<br>
-  உரிமையாளர் விழித்து திருடனை பார்த்தார்.<br>
-  திருடன் பயந்து ஓடிவிட்டான்.<br>
-  நாய் உரிமையாளரை காப்பாற்றியது.<br>
-  அவன் நாயை பாராட்டி பரிசளித்தான்.<br>
-  நாய் நன்றியுடன் இருந்தது.<br>
-  அது எப்போதும் பாதுகாப்பாக இருந்தது.<br>
-  ENGLISH TRANSLATION<br>
-  A dog lived with its owner.<br>
-  He raised it with great affection.<br>
-  One night, a thief broke into the house.<br>
-  The dog noticed him and barked loudly.<br>
-  The owner woke up and spotted the thief.<br>
-  Frightened, the thief ran away.<br>
-  The dog saved its owner.<br>
-  He praised the dog and rewarded it.<br>
-  The dog was grateful.<br>
-  It remained safe forever.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. நாய் யாரை காப்பாற்றியது?</p>
-<label><input type="radio" name="s11q1" data-correct="true"> உரிமையாளர்</label><br>
-<label><input type="radio" name="s11q1"> நண்பர்</label><br>
-<label><input type="radio" name="s11q1"> சிங்கம்</label><br>
-<label><input type="radio" name="s11q1"> நரி</label><br>
-
-<p>2. யார் வந்தார்?</p>
-<label><input type="radio" name="s11q2" data-correct="true"> திருடன்</label><br>
-<label><input type="radio" name="s11q2"> நண்பர்</label><br>
-<label><input type="radio" name="s11q2"> ஆசிரியர்</label><br>
-<label><input type="radio" name="s11q2"> மருத்துவர்</label><br>
-
-<p>3. பாடம் என்ன?</p>
-<label><input type="radio" name="s11q3" data-correct="true"> நன்றி முக்கியம்</label><br>
-<label><input type="radio" name="s11q3"> சண்டை</label><br>
-<label><input type="radio" name="s11q3"> பயம்</label><br>
-<label><input type="radio" name="s11q3"> ஓடு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 12 -->
-<div id="s12" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(12)">⭐ Bookmark</button>
-  </div>
-  <h2>12. அறிவில்லாத குரங்கு</h2>
-  <audio controls><source src="Story-12.mp3"></audio>
-  <p>
-  ஒரு குரங்கு தன்னை மிகவும் புத்திசாலி என்று நினைத்தது.<br>
-  அது மற்ற விலங்குகளை அடிக்கடி கேலி செய்தது.<br>
-  ஒரு நாள் அது மரத்தின் உயரமான கிளையில் ஏறியது.<br>
-  கவனமின்றி விளையாடிக் கொண்டிருந்தது.<br>
-  திடீரென அது கீழே விழுந்தது.<br>
-  காயமடைந்து நகர முடியாமல் இருந்தது.<br>
-  மற்ற விலங்குகள் வந்து உதவின.<br>
-  குரங்கு தன் தவறை உணர்ந்தது.<br>
-  பிறரை மதிக்க கற்றுக் கொண்டது.<br>
-  அதன் பின் அது நல்லவனாக வாழ்ந்தது.<br>
-  ENGLISH TRANSLATION<br>
-  A monkey thought of itself as very clever.<br>
-  It often mocked the other animals.<br>
-  One day, it climbed onto a high branch of a tree.<br>
-  It was playing carelessly.<br>
-  Suddenly, it fell down.<br>
-  It was injured and unable to move.<br>
-  The other animals came and helped it.<br>
-  The monkey realized its mistake.<br>
-  It learned to respect others.<br>
-  From then on, it lived as a good animal.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. யார் விழுந்தது?</p>
-<label><input type="radio" name="s12q1" data-correct="true"> குரங்கு</label><br>
-<label><input type="radio" name="s12q1"> நரி</label><br>
-<label><input type="radio" name="s12q1"> காகம்</label><br>
-<label><input type="radio" name="s12q1"> யானை</label><br>
-
-<p>2. அது என்ன உணர்ந்தது?</p>
-<label><input type="radio" name="s12q2" data-correct="true"> தவறு</label><br>
-<label><input type="radio" name="s12q2"> மகிழ்ச்சி</label><br>
-<label><input type="radio" name="s12q2"> கோபம்</label><br>
-<label><input type="radio" name="s12q2"> பயம்</label><br>
-
-<p>3. பாடம் என்ன?</p>
-<label><input type="radio" name="s12q3" data-correct="true"> பிறரை மதிக்க வேண்டும்</label><br>
-<label><input type="radio" name="s12q3"> சண்டை செய்</label><br>
-<label><input type="radio" name="s12q3"> ஓடு</label><br>
-<label><input type="radio" name="s12q3"> தூங்கு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 13 -->
-<div id="s13" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(13)">⭐ Bookmark</button>
-  </div>
-  <h2>13. உழைப்பின் பலன்</h2>
-  <audio controls><source src="Story-13.mp3"></audio>
-  <p>
-  ஒரு இளைஞன் தினமும் கடினமாக உழைத்தான்.<br>
-  ஆரம்பத்தில் அவனுக்கு பல தடைகள் இருந்தன.<br>
-  அவன் பலமுறை தோல்வியடைந்தான்.<br>
-  இருந்தாலும் முயற்சியை விட்டுவிடவில்லை.<br>
-  அவன் ஒவ்வொரு நாளும் புதியதாக கற்றுக்கொண்டான்.<br>
-  மெதுவாக அவன் திறமை வளர்ந்தது.<br>
-  ஒரு நாள் பெரிய வாய்ப்பு கிடைத்தது.<br>
-  அவன் அதைப் பயன்படுத்தி வெற்றி பெற்றான்.<br>
-  அவன் வாழ்க்கை உயர்ந்தது.<br>
-  உழைப்பும் விடாமுயற்சியும் வெற்றி தரும்.<br>
-  ENGLISH TRANSLATION<br>
-  A young man worked hard every day.<br>
-  Initially, he faced many obstacles.<br>
-  He failed many times.<br>
-  Nevertheless, he did not give up his efforts.<br>
-  He learned something new every day.<br>
-  Gradually, his skills grew.<br>
-  One day, a great opportunity arose.<br>
-  He seized it and achieved success.<br>
-  His life reached new heights.<br>
-  Hard work and perseverance lead to success.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. யார் உழைத்தார்?</p>
-<label><input type="radio" name="s13q1" data-correct="true"> மனிதன்</label><br>
-<label><input type="radio" name="s13q1"> நரி</label><br>
-<label><input type="radio" name="s13q1"> குரங்கு</label><br>
-<label><input type="radio" name="s13q1"> காகம்</label><br>
-
-<p>2. அவர் என்ன பெற்றார்?</p>
-<label><input type="radio" name="s13q2" data-correct="true"> வெற்றி</label><br>
-<label><input type="radio" name="s13q2"> தோல்வி</label><br>
-<label><input type="radio" name="s13q2"> பயம்</label><br>
-<label><input type="radio" name="s13q2"> சண்டை</label><br>
-
-<p>3. பாடம் என்ன?</p>
-<label><input type="radio" name="s13q3" data-correct="true"> உழைப்பு முக்கியம்</label><br>
-<label><input type="radio" name="s13q3"> சோம்பேறி இரு</label><br>
-<label><input type="radio" name="s13q3"> ஓடு</label><br>
-<label><input type="radio" name="s13q3"> தூங்கு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 14 -->
-<div id="s14" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(14)">⭐ Bookmark</button>
-  </div>
-  <h2>14. துணிவான சிறுவன்</h2>
-  <audio controls><source src="Story-14.mp3"></audio>
-  <p>
-  ஒரு சிறுவன் இருளுக்கு மிகவும் பயந்தான்.<br>
-  இரவு வந்தால் அவன் வெளியே போக மாட்டான்.<br>
-  ஒரு நாள் அவன் தாயார் நோயுற்றார்.<br>
-  மருந்து வாங்க இரவில் வெளியே போக வேண்டியது வந்தது.<br>
-  அவன் பயந்தாலும் துணிவாக நடந்தான்.<br>
-  வழியில் பல சத்தங்கள் கேட்டன.<br>
-  அவன் மனதை தைரியப்படுத்திக் கொண்டான்.<br>
-  கடைக்குச் சென்று மருந்து வாங்கினான்.<br>
-  பாதுகாப்பாக வீடு திரும்பினான்.<br>
-  அன்றிலிருந்து அவன் பயத்தை வென்றான்.<br>
-  ENGLISH TRANSLATION<br>
-  A young boy was terrified of the dark.<br>
-  He would not venture outside once night fell.<br>
-  One day, his mother fell ill.<br>
-  He had to go out at night to buy medicine.<br>
-  Despite his fear, he walked on courageously.<br>
-  He heard various sounds along the way.<br>
-  He steeled his heart.<br>
-  He went to the shop and bought the medicine.<br>
-  He returned home safely.<br>
-  From that day on, he conquered his fear.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. சிறுவன் என்ன வென்றான்?</p>
-<label><input type="radio" name="s14q1" data-correct="true"> பயம்</label><br>
-<label><input type="radio" name="s14q1"> சண்டை</label><br>
-<label><input type="radio" name="s14q1"> ஓடு</label><br>
-<label><input type="radio" name="s14q1"> தூங்கு</label><br>
-
-<p>2. அவன் என்ன பெற்றான்?</p>
-<label><input type="radio" name="s14q2" data-correct="true"> தைரியம்</label><br>
-<label><input type="radio" name="s14q2"> பயம்</label><br>
-<label><input type="radio" name="s14q2"> சோம்பேறித்தனம்</label><br>
-<label><input type="radio" name="s14q2"> சண்டை</label><br>
-
-<p>3. பாடம் என்ன?</p>
-<label><input type="radio" name="s14q3" data-correct="true"> துணிவு முக்கியம்</label><br>
-<label><input type="radio" name="s14q3"> பயம் முக்கியம்</label><br>
-<label><input type="radio" name="s14q3"> ஓடு</label><br>
-<label><input type="radio" name="s14q3"> தூங்கு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-
-<!-- STORY 15 -->
-<div id="s15" class="reader">
-  <div class="actions">
-    <button onclick="goHome()">⬅ முகப்பு</button>
-    <button onclick="bookmark(15)">⭐ Bookmark</button>
-  </div>
-  <h2>15. சிறிய எறும்பு</h2>
-  <audio controls><source src="Story-15.mp3"></audio>
-  <p>
-  ஒரு எறும்பு கோடையில் மிகவும் உழைத்தது.<br>
-  அது தினமும் உணவை சேகரித்து சேமித்தது.<br>
-  அருகிலிருந்த சில பூச்சிகள் விளையாடிக் கொண்டிருந்தன.<br>
-  “ஏன் இவ்வளவு உழைப்பு?” என்று கேட்டன.<br>
-  எறும்பு “குளிர்காலத்திற்காக” என்றது.<br>
-  குளிர்காலம் வந்தபோது உணவு கிடைக்கவில்லை.<br>
-  மற்ற பூச்சிகள் பசித்தன.<br>
-  எறும்பு சேமித்த உணவை உண்டது.<br>
-  உழைப்பின் மதிப்பு அப்போது தெரிந்தது.<br>
-  முன்னேற்பாடு வாழ்க்கையை பாதுகாக்கும்.<br>
-  ENGLISH TRANSLATION<br>
-  An ant worked very hard during the summer.<br>
-  Every day, it gathered and stored food.<br>
-  Some nearby insects were playing.<br>
-  "Why work so hard?" they asked.<br>
-  "For the winter," replied the ant.<br>
-  When winter arrived, no food could be found.<br>
-  The other insects went hungry.<br>
-  The ant ate the food it had stored.<br>
-  The value of hard work became apparent then.<br>
-  Forethought safeguards one's life.<br>
-  </p>
-  <div class="quiz">
-<h3>🧠 வினாக்கள்</h3>
-
-<p>1. எறும்பு என்ன செய்தது?</p>
-<label><input type="radio" name="s15q1" data-correct="true"> உணவு சேமித்தது</label><br>
-<label><input type="radio" name="s15q1"> தூங்கியது</label><br>
-<label><input type="radio" name="s15q1"> ஓடியது</label><br>
-<label><input type="radio" name="s15q1"> சண்டை செய்தது</label><br>
-
-<p>2. மற்றவர்கள் என்ன செய்தனர்?</p>
-<label><input type="radio" name="s15q2" data-correct="true"> விளையாடினர்</label><br>
-<label><input type="radio" name="s15q2"> வேலை செய்தனர்</label><br>
-<label><input type="radio" name="s15q2"> ஓடினர்</label><br>
-<label><input type="radio" name="s15q2"> தூங்கினர்</label><br>
-
-<p>3. பாடம் என்ன?</p>
-<label><input type="radio" name="s15q3" data-correct="true"> முன் திட்டமிடுதல் முக்கியம்</label><br>
-<label><input type="radio" name="s15q3"> சோம்பேறி இரு</label><br>
-<label><input type="radio" name="s15q3"> சண்டை செய்</label><br>
-<label><input type="radio" name="s15q3"> ஓடு</label><br>
-
-<button onclick="checkQuiz(this)">Submit</button>
-<p class="result"></p>
-</div>
-</div>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch(err => console.log("SW Error:", err));
-  });
-}
-</script>
-
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="stories.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+          .then(() => console.log("Tamil Sudhar service worker ready"))
+          .catch(err => console.warn("Service worker unavailable:", err));
+      });
+    }
+  </script>
 </body>
 </html>

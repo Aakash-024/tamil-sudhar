@@ -1,16 +1,27 @@
 {
-  "name": "தமிழ் சுடர்",
-  "short_name": "சுடர்",
+  "name": "தமிழ் சுடர் — கதைகளின் ஒளி",
+  "short_name": "தமிழ் சுடர்",
+  "description": "ஒலி வடிவம், இருமொழி வாசிப்பு மற்றும் வினாடி-வினாக்களுடன் கூடிய தமிழ் கதைகள்.",
+  "lang": "ta",
+  "dir": "ltr",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#4a148c",
-  "orientation": "portrait",
+  "orientation": "any",
+  "background_color": "#fffaf3",
+  "theme_color": "#150e2e",
   "icons": [
     {
       "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
